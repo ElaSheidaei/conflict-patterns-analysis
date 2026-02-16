@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>The Protector’s Shadow</title>
+
+  <!-- Google Fonts (Typography triangle) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="css/style.css" />
+
+  <!-- D3 (required) -->
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+
+<body>
+  <!-- Header (required) -->
+  <header class="site-header" id="top">
+    <div class="container header-inner">
+      <div class="brand">
+        <a class="brand-title" href="#top">Conflict Patterns Analysis</a>
+        <span class="brand-sub">The Protector’s Shadow</span>
+      </div>
+
+      <nav class="nav">
+        <a href="#chapters">Chapters</a>
+        <a href="#methodology">Methodology</a>
+        <a href="#footer">Team</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero / Scarf -->
+  <section class="hero">
+    <div class="container hero-inner">
+      <div class="hero-text">
+        <h1>When the Protector Becomes the Threat</h1>
+        <p class="thesis">
+          In modern conflicts, the greatest risk to civilians is often not foreign enemies,
+          but violence that emerges within states themselves.
+        </p>
+
+        <p class="intro">
+          This project builds a visual narrative from global patterns to regional dynamics,
+          and ends by confronting what the data cannot fully capture.
+        </p>
+
+        <div class="chapter-overview">
+          <div class="chip"><span>1</span> Global shift</div>
+          <div class="chip"><span>2</span> Regional patterns</div>
+          <div class="chip"><span>3</span> Repression dynamics</div>
+          <div class="chip"><span>4</span> The data void</div>
+        </div>
+
+        <a class="scroll-cue" href="#chapters" aria-label="Scroll to chapters">
+          Scroll ↓
+        </a>
+      </div>
+
+      <div class="hero-side">
+        <div class="hero-card">
+          <div class="kicker">What you will see</div>
+          <ul>
+            <li>How conflict types change over time</li>
+            <li>Where civilians face the highest risks</li>
+            <li>How protest and violence co-occur</li>
+            <li>Where data goes missing</li>
+          </ul>
+          <div class="note">
+            All charts are built with <strong>D3.js</strong> and documented preprocessing.
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Chapters -->
+  <main id="chapters" class="chapters">
+    <div class="container">
+      <div class="section-title">
+        <h2>Chapters</h2>
+        <p>Scroll to move through the narrative. Each section pairs evidence with context.</p>
+      </div>
+    </div>
+
+    <!-- CHAPTER 1 -->
+    <section class="chapter" aria-label="Chapter 1 Global Context">
+      <div class="container chapter-head">
+        <h3><span class="chapter-num">01</span> Global Context</h3>
+        <p class="chapter-desc">A structural shift: conflict moves from borders to within societies.</p>
+      </div>
+
+      <!-- 1) Streamgraph -->
+      <section class="step" data-step="streamgraph">
+        <div class="container step-inner">
+          <div class="text">
+            <h4>Changing Face of War</h4>
+            <p>
+              Over decades, the composition of conflict changes. Instead of focusing only on interstate wars,
+              we examine how internal and one-sided forms of violence rise in prominence.
+            </p>
+            <div class="takeaway">
+              <span class="takeaway-label">Takeaway</span>
+              <span>Conflict increasingly concentrates inside states, not just across borders.</span>
+            </div>
+          </div>
+          <div class="viz">
+            <div class="viz-head">
+              <div class="viz-title">Streamgraph: conflict types over time</div>
+              <div class="viz-meta">Units: deaths (where available)</div>
+            </div>
+            <div id="viz-streamgraph" class="viz-box" aria-label="Streamgraph placeholder"></div>
+            <div class="viz-foot">Hover for details • Annotated peaks highlight major shifts</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 2) Choropleth -->
+      <section class="step" data-step="choropleth">
+        <div class="container step-inner">
+          <div class="text">
+            <h4>Where Civilians Face Highest Risk</h4>
+            <p>
+              Mapping one-sided violence helps locate contexts where civilians are directly affected.
+              We include explicit “No data” states to communicate uncertainty.
+            </p>
+            <div class="takeaway">
+              <span class="takeaway-label">Takeaway</span>
+              <span>Geography reveals clustering — and also gaps in reporting.</span>
+            </div>
+          </div>
+          <div class="viz">
+            <div class="viz-head">
+              <div class="viz-title">Choropleth “Red Alert”</div>
+              <div class="viz-meta">Metric: total deaths (20 years)</div>
+            </div>
+
+            <div class="controls">
+              <button class="btn" id="btn-map-abs" aria-pressed="true">Absolute</button>
+              <button class="btn" id="btn-map-rate" aria-pressed="false">Per-capita (optional)</button>
+            </div>
+
+            <div id="viz-choropleth" class="viz-box" aria-label="Choropleth placeholder"></div>
+            <div class="viz-foot">Hover for country values • Click to pin tooltip</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3) Lollipop -->
+      <section class="step" data-step="lollipop">
+        <div class="container step-inner">
+          <div class="text">
+            <h4>Top Countries by Civilian Targeting Events</h4>
+            <p>
+              Ranking highlights concentration. This is not a “scoreboard,” but a way to compare the scale of recorded events.
+            </p>
+            <div class="takeaway">
+              <span class="takeaway-label">Takeaway</span>
+              <span>Recorded civilian targeting is highly uneven across countries.</span>
+            </div>
+          </div>
+          <div class="viz">
+            <div class="viz-head">
+              <div class="viz-title">Lollipop Ranking (Top 10)</div>
+              <div class="viz-meta">Metric: events targeting civilians</div>
+            </div>
+            <div id="viz-lollipop" class="viz-box" aria-label="Lollipop placeholder"></div>
+            <div class="viz-foot">Hover to highlight • Labels include units</div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- CHAPTER 2 -->
+    <section class="chapter" aria-label="Chapter 2 Regional Analysis">
+      <div class="container chapter-head">
+        <h3><span class="chapter-num">02</span> Regional Analysis</h3>
+        <p class="chapter-desc">Zoom in to understand how different forms of violence cluster and unfold.</p>
+      </div>
+
+      <!-- 4) Dot Map -->
+      <section class="step" data-step="dotmap">
+        <div class="container step-inner">
+          <div class="text">
+            <h4>Protest → Response on the Map</h4>
+            <p>
+              An interactive dot map shows how protest activity and violence against civilians appear in space.
+              Scroll steps reveal layers and relationships.
+            </p>
+            <div class="takeaway">
+              <span class="takeaway-label">Takeaway</span>
+              <span>Spatial overlap can reveal patterns of escalation.</span>
+            </div>
+          </div>
+          <div class="viz">
+            <div class="viz-head">
+              <div class="viz-title">Scrollytelling Dot Map (Middle East)</div>
+              <div class="viz-meta">Size: fatalities • Color: event type</div>
+            </div>
+
+            <div class="controls">
+              <label class="select">
+                Layer:
+                <select id="dotmap-layer">
+                  <option value="Protests">Protests</option>
+                  <option value="Violence against civilians">Violence against civilians</option>
+                  <option value="Battles">Battles</option>
+                  <option value="All" selected>All</option>
+                </select>
+              </label>
+            </div>
+
+            <div id="viz-dotmap" class="viz-box" aria-label="Dot map placeholder"></div>
+            <div class="viz-foot">Scroll triggers transitions • Hover for event details</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 5) Slope -->
+      <section class="step" data-step="slope">
+        <div class="container step-inner">
+          <div class="text">
+            <h4>Security Decline in Two Periods</h4>
+            <p>
+              A slope chart compares two time windows to highlight sharp changes.
+              This makes relative change visually obvious.
+            </p>
+            <div class="takeaway">
+              <span class="takeaway-label">Takeaway</span>
+              <span>Some countries shift rapidly — the slope communicates magnitude and direction.</span>
+            </div>
+          </div>
+          <div class="viz">
+            <div class="viz-head">
+              <div class="viz-title">Slope Chart</div>
+              <div class="viz-meta">Metric: fatalities (period A vs period B)</div>
+            </div>
+            <div id="viz-slope" class="viz-box" aria-label="Slope chart placeholder"></div>
+            <div class="viz-foot">Hover highlights a country • Click to focus</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 6) 100% stacked -->
+      <section class="step" data-step="stacked100">
+        <div class="container step-inner">
+          <div class="text">
+            <h4>Nature of Violence Changes Across Contexts</h4>
+            <p>
+              We compare how violence is “composed” in different countries: military confrontation versus civil repression.
+              A toggle can switch between event counts and fatality shares.
+            </p>
+            <div class="takeaway">
+              <span class="takeaway-label">Takeaway</span>
+              <span>Structure (event mix) and severity (fatalities) are not the same.</span>
+            </div>
+          </div>
+          <div class="viz">
+            <div class="viz-head">
+              <div class="viz-title">100% Stacked Bar</div>
+              <div class="viz-meta">Mode: events or fatalities</div>
+            </div>
+
+            <div class="controls">
+              <button class="btn" id="btn-stacked-events" aria-pressed="true">Events</button>
+              <button class="btn" id="btn-stacked-fatal" aria-pressed="false">Fatalities</button>
+            </div>
+
+            <div id="viz-stacked100" class="viz-box" aria-label="Stacked bar placeholder"></div>
+            <div class="viz-foot">Hover for percentages • Clear legends and labels</div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- CHAPTER 3 -->
+    <section class="chapter" aria-label="Chapter 3 Patterns of Repression">
+      <div class="container chapter-head">
+        <h3><span class="chapter-num">03</span> Patterns of Repression</h3>
+        <p class="chapter-desc">Temporal patterns: when civil unrest and violence co-occur.</p>
+      </div>
+
+      <!-- 7) Dual-axis -->
+      <section class="step" data-step="dualaxis">
+        <div class="container step-inner">
+          <div class="text">
+            <h4>Protests and Civilian Violence Over Time</h4>
+            <p>
+              A dual-axis view shows how protest frequency and recorded civilian violence evolve together.
+              We interpret this as co-occurrence (not causation).
+            </p>
+            <div class="takeaway">
+              <span class="takeaway-label">Takeaway</span>
+              <span>Spikes can align — suggesting escalation windows.</span>
+            </div>
+            <div class="warn">
+              <span class="warn-label">Note</span>
+              <span>Correlation ≠ causation. Reporting intensity may vary over time.</span>
+            </div>
+          </div>
+          <div class="viz">
+            <div class="viz-head">
+              <div class="viz-title">Dual-Axis Chart</div>
+              <div class="viz-meta">Weekly aggregation</div>
+            </div>
+            <div id="viz-dualaxis" class="viz-box" aria-label="Dual axis placeholder"></div>
+            <div class="viz-foot">Hover values • Optional brush zoom later</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 8) Ridgeline -->
+      <section class="step" data-step="ridgeline">
+        <div class="container step-inner">
+          <div class="text">
+            <h4>Waves of Violence</h4>
+            <p>
+              Ridgeline densities compress time into a “landscape,” making recurring peaks visible.
+              These can be interpreted as “bloody months/weeks” in the recorded data.
+            </p>
+            <div class="takeaway">
+              <span class="takeaway-label">Takeaway</span>
+              <span>Violence is not constant — it arrives in waves.</span>
+            </div>
+          </div>
+          <div class="viz">
+            <div class="viz-head">
+              <div class="viz-title">Ridgeline Plot</div>
+              <div class="viz-meta">Distribution by week (or month)</div>
+            </div>
+            <div id="viz-ridgeline" class="viz-box" aria-label="Ridgeline placeholder"></div>
+            <div class="viz-foot">Hover ridge peaks • Explicit axis units</div>
+          </div>
+        </div>
+      </section>
+    </section>
+
+    <!-- CHAPTER 4 -->
+    <section class="chapter" aria-label="Chapter 4 The Void">
+      <div class="container chapter-head">
+        <h3><span class="chapter-num">04</span> The Void</h3>
+        <p class="chapter-desc">The story ends where the data weakens: uncertainty and missingness.</p>
+      </div>
+
+      <!-- 9) Sankey -->
+      <section class="step" data-step="sankey">
+        <div class="container step-inner">
+          <div class="text">
+            <h4>Flow of Outcomes</h4>
+            <p>
+              A Sankey diagram summarizes flows from protest-related events into recorded outcome categories.
+              It also reserves space for “Unknown / Not recorded”.
+            </p>
+            <div class="takeaway">
+              <span class="takeaway-label">Takeaway</span>
+              <span>Even structured datasets can compress human outcomes into incomplete categories.</span>
+            </div>
+          </div>
+          <div class="viz">
+            <div class="viz-head">
+              <div class="viz-title">Sankey Diagram</div>
+              <div class="viz-meta">Flows by recorded category</div>
+            </div>
+            <div id="viz-sankey" class="viz-box" aria-label="Sankey placeholder"></div>
+            <div class="viz-foot">Hover highlights a path • “Unknown” is shown explicitly</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 10) Heatmap -->
+      <section class="step" data-step="heatmap">
+        <div class="container step-inner">
+          <div class="text">
+            <h4>Where Conflict Exists but Data Does Not</h4>
+            <p>
+              We contrast conflict presence with available recorded civilian violence data.
+              This is a direct uncertainty visualization: missingness is shown, not hidden.
+            </p>
+            <div class="takeaway">
+              <span class="takeaway-label">Takeaway</span>
+              <span>Absence of data is not absence of harm.</span>
+            </div>
+          </div>
+          <div class="viz">
+            <div class="viz-head">
+              <div class="viz-title">Heatmap: conflict vs missing data</div>
+              <div class="viz-meta">Binary indicators</div>
+            </div>
+            <div id="viz-heatmap" class="viz-box" aria-label="Heatmap placeholder"></div>
+            <div class="viz-foot">Hover for explanation • “No data” is a first-class value</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 11) Text scrollytelling -->
+      <section class="step finale" data-step="finale">
+        <div class="container finale-inner">
+          <p class="finale-line">We can visualize patterns.</p>
+          <p class="finale-line">We can compare structures.</p>
+          <p class="finale-line">We can map where violence concentrates.</p>
+          <p class="finale-line fade">But some of the story disappears.</p>
+          <div class="finale-word">DATA MISSING</div>
+        </div>
+      </section>
+    </section>
+
+    <!-- Methodology (required) -->
+    <section id="methodology" class="methodology">
+      <div class="container">
+        <h2>Methodology</h2>
+        <p class="methodology-intro">
+          This section documents datasets, preprocessing, assumptions, and limitations to ensure methodological transparency.
+        </p>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Data sources</h3>
+            <ul>
+              <li><strong>UCDP / Our World in Data</strong>: conflict deaths by type, region, and country.</li>
+              <li><strong>ACLED</strong>: event-level data (Middle East), coordinates and event categories.</li>
+              <li><strong>UN population (optional)</strong>: per-capita normalization for country comparisons.</li>
+            </ul>
+            <p class="small muted">
+              Links to sources will be listed in the README and footer of the website.
+            </p>
+          </div>
+
+          <div class="card">
+            <h3>Processing pipeline</h3>
+            <ol>
+              <li>Download raw datasets (documented).</li>
+              <li>Clean column names and standardize keys (country names, ISO codes).</li>
+              <li>Filter to required periods/regions (global vs Middle East).</li>
+              <li>Aggregate to chart-ready tables (weekly totals, top-10 rankings, shares).</li>
+              <li>Export small CSV files used by D3 visualizations.</li>
+            </ol>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <div class="card">
+            <h3>Cleaning & assumptions</h3>
+            <ul>
+              <li>Removed rows with missing essential fields for specific charts (e.g., missing coordinates for maps).</li>
+              <li>Computed shares (%) to compare structures across countries.</li>
+              <li>Used explicit “No data” states where applicable to avoid hiding uncertainty.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <h3>Limitations</h3>
+            <ul>
+              <li><strong>Reporting bias:</strong> conflict data coverage varies by region and time (ACLED/UCDP).</li>
+              <li><strong>Missing data:</strong> some conflicts exist with incomplete civilian reporting.</li>
+              <li><strong>Category ambiguity:</strong> event labels may not map perfectly to real-world mechanisms.</li>
+              <li><strong>Aggregation loss:</strong> weekly/annual summaries can hide local variation.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>What to keep in mind</h3>
+          <ul class="checklist">
+            <li>Patterns shown are <strong>recorded patterns</strong>, not the full reality.</li>
+            <li>Absence of data ≠ absence of harm.</li>
+            <li>Correlation is not causation.</li>
+            <li>Use per-capita views when comparing countries of different sizes (optional toggle).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer (required) -->
+  <footer id="footer" class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <div class="footer-title">Team</div>
+        <div class="footer-text">
+          Elaheh Sheidaei — <span class="muted">Role: Storytelling + Design</span><br />
+          Moein Vadikheir — <span class="muted">Role: Data + Implementation</span>
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-title">Project</div>
+        <div class="footer-text">
+          Repository: <span class="muted">(link added when public)</span><br />
+          Built with HTML/CSS/JS + D3.js
+        </div>
+      </div>
+
+      <div>
+        <div class="footer-title">Sources</div>
+        <div class="footer-text">
+          UCDP / Our World in Data • ACLED • UN population (optional)
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
