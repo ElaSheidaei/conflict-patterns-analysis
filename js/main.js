@@ -39,4 +39,14 @@ document.addEventListener("DOMContentLoaded", () => {
     stEv.addEventListener("click", () => setPressed("#btn-stacked-events, #btn-stacked-fatal", "btn-stacked-events"));
     stFa.addEventListener("click", () => setPressed("#btn-stacked-events, #btn-stacked-fatal", "btn-stacked-fatal"));
   }
+  // Render Streamgraph (Chart 1)
+  if (window.renderStreamgraph) {
+    window.renderStreamgraph({
+      containerId: "viz-streamgraph",
+      dataPath: "data/processed/chart1_streamgraph.csv",
+      yLabel: "Deaths",
+      xLabel: "Year"
+  });
+  }
+
 });

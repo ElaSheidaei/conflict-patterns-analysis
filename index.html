@@ -44,7 +44,7 @@
         </p>
 
         <p class="intro">
-          This project builds a visual narrative from global patterns to regional dynamics,
+          This website builds a visual narrative from global patterns to regional dynamics,
           and ends by confronting what the data cannot fully capture.
         </p>
 
@@ -93,14 +93,28 @@
         <p class="chapter-desc">A structural shift: conflict moves from borders to within societies.</p>
       </div>
 
-      <!-- 1) Streamgraph -->
+      <!-- 1) Streamgraph -- changed to stacked area -->
       <section class="step" data-step="streamgraph">
         <div class="container step-inner">
           <div class="text">
             <h4>Changing Face of War</h4>
-            <p>
+            <!-- <p>
               Over decades, the composition of conflict changes. Instead of focusing only on interstate wars,
               we examine how internal and one-sided forms of violence rise in prominence.
+            </p> -->
+            <p>
+                When we think of war, we imagine armies fighting armies. But the data tells a different story. 
+            </p>
+            <p>
+                Over the last two decades, the dominant forms of conflict-related deaths are increasingly internal. These represent <strong>fatalities from Intrastate conflicts</strong> (civil wars like those in Syria and Afghanistan). While interstate wars remain present, the largest shares often come from intrastate conflicts.
+                But to understand the true shadow of modern conflict, <strong>look at the red line</strong>.
+            </p>
+            <p>
+                That continuous red layer is <strong>One-sided violence</strong>—instances where armed forces or governments target unarmed civilians. While civil wars eventually peak and fall, this red line remains a steady, continuous source of casualties year after year.
+            </p>
+            <h3>How to read it</h3>
+            <p>
+                Each layer shows the number of recorded deaths by conflict type per year. The total height is the overall burden; the composition shows what kind of violence dominates. 
             </p>
             <div class="takeaway">
               <span class="takeaway-label">Takeaway</span>
@@ -109,11 +123,11 @@
           </div>
           <div class="viz">
             <div class="viz-head">
-              <div class="viz-title">Streamgraph: conflict types over time</div>
-              <div class="viz-meta">Units: deaths (where available)</div>
+              <div class="viz-title">Stacked area: conflict types over time since 2000</div>
+              <!-- <div class="viz-meta">Units: deaths (where available)</div> -->
             </div>
-            <div id="viz-streamgraph" class="viz-box" aria-label="Streamgraph placeholder"></div>
-            <div class="viz-foot">Hover for details • Annotated peaks highlight major shifts</div>
+            <div id="viz-streamgraph" class="viz-box" aria-label="Streamgraph placeholder" style="width: 100%"></div>
+            <div class="viz-foot">Hover for details</div>
           </div>
         </div>
       </section>
@@ -501,7 +515,7 @@
       </div>
     </div>
   </footer>
-
+  <script src="js/charts/stackedArea.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

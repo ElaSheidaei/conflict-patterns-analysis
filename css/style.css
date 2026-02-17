@@ -449,3 +449,15 @@ select{
   .footer-inner{ grid-template-columns: 1fr; }
   .grid-2{ grid-template-columns: 1fr; }
 }
+
+/* Tooltip (for charts) */
+/* .tooltip{
+  background: rgba(10,10,14,.92);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 12px;
+  padding: .55rem .65rem;
+  box-shadow: 0 10px 30px rgba(0,0,0,.45);
+  backdrop-filter: blur(6px);
+  max-width: 240px;
+} */
+
