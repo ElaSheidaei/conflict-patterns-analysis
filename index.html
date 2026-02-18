@@ -112,7 +112,7 @@
             <p>
                 That continuous red layer is <strong>One-sided violence</strong>—instances where armed forces or governments target unarmed civilians. While civil wars eventually peak and fall, this red line remains a steady, continuous source of casualties year after year.
             </p>
-            <h3>How to read it</h3>
+            <h3>How to read</h3>
             <p>
                 Each layer shows the number of recorded deaths by conflict type per year. The total height is the overall burden; the composition shows what kind of violence dominates. 
             </p>
@@ -137,24 +137,48 @@
         <div class="container step-inner">
           <div class="text">
             <h4>Where Civilians Face Highest Risk</h4>
-            <p>
+            <!-- <p>
               Mapping one-sided violence helps locate contexts where civilians are directly affected.
               We include explicit “No data” states to communicate uncertainty.
+            </p> -->
+            <p>
+                Mapping one-sided violence shifts attention from battlefields to civilians.
+                Instead of interstate wars, this map highlights where people are directly targeted within their own states.
+            </p>
+            <p>
+                Violence is not evenly distributed. It clusters geographically, 
+                particularly across parts of Sub-Saharan Africa and the Middle East, pointing to structural instability rather than isolated events.
+            </p>
+            <h3>How to read</h3>
+            <p>
+               Click the buttons to reveal two different dimension:
+               Darker colors indicate higher levels of one-sided violence against civilians.
+            </p>
+            
+            <ul class="legend-list">
+                <li>
+                <strong>Absolute totals</strong> shows where the largest number of civilian deaths occurred.
+                <li>
+                <strong>Per-capita rates</strong> (per 100,000 people) shows intensity, where violence affects a larger share of the population.
+            </ul>
+
+            <p>
+              Notably, several countries appear in dark gray represent no recorded data in the dataset.
             </p>
             <div class="takeaway">
               <span class="takeaway-label">Takeaway</span>
-              <span>Geography reveals clustering — and also gaps in reporting.</span>
+              <span>Conflict is not evenly distributed across the globe. It clusters, but it also hides.</span>
             </div>
           </div>
           <div class="viz">
             <div class="viz-head">
-              <div class="viz-title">Choropleth “Red Alert”</div>
+              <div class="viz-title">Choropleth</div>
               <div class="viz-meta">Metric: total deaths (20 years)</div>
             </div>
 
             <div class="controls">
               <button class="btn" id="btn-map-abs" aria-pressed="true">Absolute</button>
-              <button class="btn" id="btn-map-rate" aria-pressed="false">Per-capita (optional)</button>
+              <button class="btn" id="btn-map-rate" aria-pressed="false">Per-capita</button>
             </div>
 
             <div id="viz-choropleth" class="viz-box" aria-label="Choropleth placeholder"></div>
@@ -516,6 +540,7 @@
     </div>
   </footer>
   <script src="js/charts/stackedArea.js"></script>
+  <script src="js/charts/choropleth.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

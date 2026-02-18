@@ -49,4 +49,14 @@ document.addEventListener("DOMContentLoaded", () => {
   });
   }
 
+  if (window.renderChoropleth) {
+  window.renderChoropleth({
+    containerId: "viz-choropleth",
+    dataPath: "data/processed/chart2_choropleth.csv",
+    title: "One-sided violence (total)",
+    valueLabel: "Recorded deaths"
+  });
+  }
+
+
 });
