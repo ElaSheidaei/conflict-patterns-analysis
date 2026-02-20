@@ -224,14 +224,30 @@
         <div class="container step-inner">
           <div class="text">
             <h4>Protest → Response on the Map</h4>
+
             <p>
-              An interactive dot map shows how protest activity and violence against civilians appear in space.
-              Scroll steps reveal layers and relationships.
+            Mapping protest activity alongside violence against civilians reveals how unrest and repression occupy shared spaces.
+            Rather than viewing these events in isolation, the map traces their geographic proximity and concentration.
             </p>
+
+            <p>
+            Conflict does not unfold evenly across territory. Instead, protest events and targeted violence cluster within specific regions,
+            particularly across parts of the Middle East, suggesting localized patterns of escalation rather than random distribution.
+            </p>
+
+            <h3>How to read</h3>
+
+            <p>
+            Use the layer selector to isolate different event types. 
+            Dot size represents fatalities per event, while color distinguishes between protests, battles, and violence against civilians.
+            Hover over each dot to inspect country, administrative region, and fatality details.
+            </p>
+
             <div class="takeaway">
               <span class="takeaway-label">Takeaway</span>
-              <span>Spatial overlap can reveal patterns of escalation.</span>
+              <span>Spatial overlap can signal emerging patterns of escalation.</span>
             </div>
+
           </div>
           <div class="viz">
             <div class="viz-head">
@@ -252,6 +268,42 @@
             </div>
 
             <div id="viz-dotmap" class="viz-box" aria-label="Dot map placeholder"></div>
+            <!-- Legend starts here -->
+            <div class="dotmap-legend">
+
+              <div class="legend-section">
+                <div class="legend-title">Event Type</div>
+                <div class="legend-item">
+                  <span class="legend-dot protests"></span>
+                  <span>Protests</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot violence"></span>
+                  <span>Violence against civilians</span>
+                </div>
+                <div class="legend-item">
+                  <span class="legend-dot battles"></span>
+                  <span>Battles</span>
+                </div>
+              </div>
+
+              <div class="legend-section">
+                <div class="legend-title">Fatalities (dot size)</div>
+                <div class="size-legend">
+                  <span class="size-dot small"></span>
+                  <span>Low</span>
+
+                  <span class="size-dot medium"></span>
+                  <span>Medium</span>
+
+                  <span class="size-dot large"></span>
+                  <span>High</span>
+                </div>
+              </div>
+
+            </div>
+            <!-- Legend ends here -->
+
             <div class="viz-foot">Scroll triggers transitions • Hover for event details</div>
           </div>
         </div>
@@ -541,6 +593,7 @@
   </footer>
   <script src="js/charts/stackedArea.js"></script>
   <script src="js/charts/choropleth.js"></script>
+  <script src="js/charts/dotmap.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
