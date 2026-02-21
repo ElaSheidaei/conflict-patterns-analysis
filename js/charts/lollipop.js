@@ -12,7 +12,7 @@ function drawLollipop() {
 
     const width = container.node().getBoundingClientRect().width || 800;
     const height = 450;
-    const margin = { top: 30, right: 60, bottom: 60, left: 100 }; // Increased bottom margin for explicit axis label
+    const margin = { top: 30, right: 60, bottom: 120, left: 100 }; // Increased bottom margin for explicit axis label
 
     const svg = container.append("svg")
         .attr("width", width)
@@ -53,24 +53,26 @@ function drawLollipop() {
             .range([height - margin.bottom, margin.top])
             .padding(1);
 
-        // X Axis
-        svg.append("g")
+        // --- X AXIS AND EXPLICIT LABEL ---
+        const xAxisGroup = svg.append("g")
             .attr("transform", `translate(0,${height - margin.bottom})`)
-            .call(d3.axisBottom(x).ticks(6).tickFormat(d3.format(".2s"))) // Formats as 10k, 20k, etc.
-            .call(g => g.select(".domain").attr("stroke", "var(--line)"))
-            .call(g => g.selectAll(".tick line").attr("stroke", "var(--line)"))
-            .call(g => g.selectAll(".tick text").attr("fill", "var(--muted)").style("font-family", "var(--font-mono)"));
+            .call(d3.axisBottom(x).ticks(6).tickFormat(d3.format(".2s")));
+            
+        xAxisGroup.select(".domain").attr("stroke", "var(--line)");
+        xAxisGroup.selectAll(".tick line").attr("stroke", "var(--line)");
+        xAxisGroup.selectAll(".tick text").attr("fill", "var(--muted)").style("font-family", "var(--font-mono)");
 
-        // EXPLICIT X-Axis Label (Professor Requirement)
-        svg.append("text")
-            .attr("x", (width - margin.left - margin.right) / 2 + margin.left)
-            .attr("y", height - 15) // Positioned clearly below the axis
+        // Explicit X-Axis Label attached directly to the axis group
+        xAxisGroup.append("text")
+            .attr("x", margin.left + (width - margin.left - margin.right) / 2) // Center horizontally
+            .attr("y", 35) // Position exactly 45 pixels below the axis line
             .attr("text-anchor", "middle")
             .style("fill", "var(--text)")
             .style("font-size", "12px")
             .style("font-family", "var(--font-mono)")
             .style("letter-spacing", "0.5px")
-            .text("Total Number of Recorded Events (Civilian Targets)");
+            .text("Total Number of Recorded Events (2017-2025)"); // Explicit label text
+        
 
         // Y Axis (using shortened names)
         svg.append("g")
