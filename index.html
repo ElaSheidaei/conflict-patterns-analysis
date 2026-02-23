@@ -173,7 +173,7 @@
           <div class="viz">
             <div class="viz-head">
               <div class="viz-title">Choropleth</div>
-              <div class="viz-meta">Metric: total deaths (20 years)</div>
+              <div class="viz-meta">Metric: Recorded deaths (2012-2023)</div>
             </div>
 
             <div class="controls">
@@ -191,22 +191,43 @@
       <section class="step" data-step="lollipop">
         <div class="container step-inner">
           <div class="text">
-            <h4>Top Countries by Civilian Targeting Events</h4>
+            <h4>Concentration of Civilian Targeting</h4>
             <p>
-              Ranking highlights concentration. This is not a “scoreboard,” but a way to compare the scale of recorded events.
+              When we isolate incidents where civilians are the explicit targets, a stark ranking emerges.
+              The chart shows the <strong>top 10 countries</strong>  by the total number of recorded civilian-targeting events in recent years.
             </p>
+            <p>
+              This is not a scoreboard but a way to reveal structural concentration.
+              High values can reflect both persistent violence and stronger reporting capacity.
+            </p>
+            <p>
+              Mexico and Brazil sit at the top, shaped by sustained criminal violence across very large populations.
+              But the pattern shifts when smaller countries rise: <strong>Syria</strong> and <strong>Palestine</strong> appear near the top despite far smaller size, signaling an intense concentration of civilian targeting.
+            </p>
+            <!-- <p>
+              A small number of countries account for a disproportionate share of recorded events, reinforcing the broader pattern observed in the global map:
+               violence is geographically and numerically concentrated, not evenly dispersed
+            </p> -->
+            <h3>How to read</h3>
+            <ul>
+              <li>Each row is a country; <strong>farther right</strong> means more recorded events.</li>
+              <li>Each circle shows total recorded events from 2017 to 2025.</li>
+            </ul>
             <div class="takeaway">
               <span class="takeaway-label">Takeaway</span>
-              <span>Recorded civilian targeting is highly uneven across countries.</span>
+              <!-- <span>Recorded civilian targeting is not evenly distributed — violence concentrates.</span> -->
+               <p>
+                When conflict moves inside societies, its impact becomes uneven, concentrated in a limited number of contexts.
+              </p>
             </div>
           </div>
           <div class="viz">
             <div class="viz-head">
               <div class="viz-title">Lollipop Ranking (Top 10)</div>
-              <div class="viz-meta">Metric: events targeting civilians</div>
+              <!-- <div class="viz-meta">Metric: events targeting civilians (2017-2025)</div> -->
             </div>
             <div id="viz-lollipop" class="viz-box" aria-label="Lollipop placeholder"></div>
-            <div class="viz-foot">Hover to highlight • Labels include units</div>
+            <div class="viz-foot">Hover over a line for exact values</div>
           </div>
         </div>
       </section>
@@ -394,27 +415,47 @@
       <section class="step" data-step="dualaxis">
         <div class="container step-inner">
           <div class="text">
-            <h4>Protests and Civilian Violence Over Time</h4>
+            <h4>Protests and Civilian Violence Over Time — Iran</h4>
             <p>
-              A dual-axis view shows how protest frequency and recorded civilian violence evolve together.
-              We interpret this as co-occurrence (not causation).
+              This dual-axis chart compares the monthly number of protest events with recorded
+              civilian fatalities over the same period from 2017 to 2025 in Iran.
+              Rather than measuring scale alone, it allows us to examine timing,
+              how these two dynamics evolve side by side.
             </p>
+            <p>
+              In several moments, spikes in protest activity coincide with increases in
+              civilian fatalities. These overlaps suggest potential escalation windows,
+              where unrest and lethal repression appear closely aligned.
+            </p>
+            <p>
+              An escalation window does not imply a simple chain of cause and effect.
+              Rather, it highlights compressed periods of instability, 
+              when institutional control, public mobilization, and coercive force converge.
+            </p>
+            <h3>How to read</h3>
+            <ul>
+              <li>Blue line (left axis): monthly protest events in Iran.</li>
+              <li>Red line (right axis): recorded civilian fatalities.</li>
+              <li>Alignment in peaks indicates temporal co-occurrence.</li>
+            </ul>
+
             <div class="takeaway">
               <span class="takeaway-label">Takeaway</span>
-              <span>Spikes can align — suggesting escalation windows.</span>
+              <span>Spikes can align, suggesting escalation windows.</span>
             </div>
             <div class="warn">
               <span class="warn-label">Note</span>
-              <span>Correlation ≠ causation. Reporting intensity may vary over time.</span>
+              <span>Correlation ≠ causation. Reporting intensity, media restrictions, internet shutdowns, and documentation constraints may affect observed patterns.</span>
             </div>
           </div>
           <div class="viz">
             <div class="viz-head">
-              <div class="viz-title">Dual-Axis Chart</div>
-              <div class="viz-meta">Weekly aggregation</div>
+              <div class="viz-title">Dual-Axis Line Chart</div>
+              <div class="viz-meta">Monthly aggregation (2017-2025)</div>
             </div>
             <div id="viz-dualaxis" class="viz-box" aria-label="Dual axis placeholder"></div>
-            <div class="viz-foot">Hover values • Optional brush zoom later</div>
+            <!-- <div class="viz-foot">Hover values • Optional brush zoom later</div> -->
+            <div class="viz-foot">Hover over the timeline to view exact monthly figures</div>
           </div>
         </div>
       </section>
@@ -612,6 +653,8 @@
   <script src="js/charts/choropleth.js"></script>
   <script src="js/charts/dotmap.js"></script>
   <script src="js/charts/slope.js"></script>
+  <script src="js/charts/lollipop.js"></script>
+  <script src="js/charts/dualaxis.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
