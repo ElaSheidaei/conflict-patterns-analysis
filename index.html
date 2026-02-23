@@ -397,8 +397,24 @@
           <div class="text">
             <h4>Waves of Violence</h4>
             <p>
-              Ridgeline densities compress time into a “landscape,” making recurring peaks visible.
-              These can be interpreted as “bloody months/weeks” in the recorded data.
+              This ridgeline compresses Iran’s weekly record of civilian fatalities
+              from 2017 to 2025 into a layered landscape.
+              Each ridge represents one year, and its vertical height encodes
+              the number of recorded fatalities in a given week.
+            </p>
+            <p>
+              Violence does not unfold evenly across time.
+              Extended periods remain relatively subdued, interrupted by sudden,
+              sharply rising peaks. In certain years — most visibly 2019 and 2022 —
+              these peaks rise distinctly above surrounding periods,
+              forming what can be described as “bloody weeks” in the recorded data.
+            </p>
+            <h4>How to read</h4>
+            <p>
+              Read horizontally to follow the progression of weeks within a year.
+              The horizontal axis approximates months of the year (derived from the week index),
+              while vertical height reflects weekly fatality counts.
+              Comparing ridges vertically reveals differences in intensity across years.
             </p>
             <div class="takeaway">
               <span class="takeaway-label">Takeaway</span>
@@ -408,7 +424,7 @@
           <div class="viz">
             <div class="viz-head">
               <div class="viz-title">Ridgeline Plot</div>
-              <div class="viz-meta">Distribution by week (or month)</div>
+              <div class="viz-meta">Distribution by week</div>
             </div>
             <div id="viz-ridgeline" class="viz-box" aria-label="Ridgeline placeholder"></div>
             <div class="viz-foot">Hover ridge peaks • Explicit axis units</div>
@@ -584,6 +600,7 @@
   <script src="js/charts/choropleth.js"></script>
   <script src="js/charts/lollipop.js"></script>
   <script src="js/charts/dualaxis.js"></script>
+  <script src="js/charts/ridgeline.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
