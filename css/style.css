@@ -301,6 +301,88 @@ a:hover{ opacity:.9; }
   font-size:.9rem;
 }
 
+/* ============================= */
+/* Dot Map Legend */
+/* ============================= */
+
+.dotmap-legend {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.legend-title {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  font-size: .75rem;
+  margin-bottom: 8px;
+  color: var(--muted);
+}
+
+.legend-section {
+  margin-bottom: 14px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+
+.legend-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+}
+
+/* Match exact D3 colors */
+.legend-dot.protests { background: #4da3ff; }
+.legend-dot.violence { background: #ff5a5a; }
+.legend-dot.battles  { background: #ffa500; }
+
+/* Size legend layout */
+.size-legend {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+.size-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.size-dot {
+  background: rgba(255,255,255,.75);
+  border-radius: 50%;
+}
+
+.size-dot.small  { width: 6px;  height: 6px; }
+.size-dot.medium { width: 12px; height: 12px; }
+.size-dot.large  { width: 18px; height: 18px; }
+
+/*Dot Map Legend*/
+
+/* ============================= */
+/* Slope Chart */
+/* ============================= */
+
+.slope-line {
+  transition: all 0.3s ease;
+}
+
+.slope-label {
+  font-size: 12px;
+  fill: var(--text);
+}
+
+/* Slope Chart */
+
 .controls{
   display:flex;
   flex-wrap:wrap;
