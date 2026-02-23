@@ -368,6 +368,21 @@ a:hover{ opacity:.9; }
 
 /*Dot Map Legend*/
 
+/* ============================= */
+/* Slope Chart */
+/* ============================= */
+
+.slope-line {
+  transition: all 0.3s ease;
+}
+
+.slope-label {
+  font-size: 12px;
+  fill: var(--text);
+}
+
+/* Slope Chart */
+
 .controls{
   display:flex;
   flex-wrap:wrap;
