@@ -478,7 +478,7 @@
               these peaks rise distinctly above surrounding periods,
               forming what can be described as “bloody weeks” in the recorded data.
             </p>
-            <h4>How to read</h4>
+            <h3>How to read</h3>
             <p>
               Read horizontally to follow the progression of weeks within a year.
               The horizontal axis approximates months of the year (derived from the week index),
@@ -513,23 +513,38 @@
       <section class="step" data-step="sankey">
         <div class="container step-inner">
           <div class="text">
-            <h4>Flow of Outcomes</h4>
+            <h4>From Protest to Disappearance</h4>
             <p>
-              A Sankey diagram summarizes flows from protest-related events into recorded outcome categories.
-              It also reserves space for “Unknown / Not recorded”.
+              This Sankey diagram traces documented protest-related outcomes in Iran during the
+              “Woman, Life, Freedom” uprising, which began in September 2022.
+              The figures reflect cumulative cases recorded through
+              <strong>February 21, 2023</strong>.
+            </p>
+            <p>
+              A large flow moves into arrest, a narrow red branch ends in deaths,
+              and a substantial share fades into <em>Status Unknown (The Void)</em> —
+              cases whose identities or legal status could not be independently verified
+              amid censorship and reporting constraints.
+            </p>
+            <h3>How to Read</h3>
+            <p>
+              Hover a link to highlight its path and see the reported count.
+              Node values are cumulative totals from the compiled dataset.
+              The leftmost <strong>“Protesters”</strong> node is a constructed baseline:
+              it equals <strong>Arrested + Killed</strong> within documented outcomes, not the true number of protesters.
             </p>
             <div class="takeaway">
               <span class="takeaway-label">Takeaway</span>
-              <span>Even structured datasets can compress human outcomes into incomplete categories.</span>
+              <span>Documented outcomes reveal not only violence, but the limits of visibility under censorship.</span>
             </div>
           </div>
           <div class="viz">
             <div class="viz-head">
               <div class="viz-title">Sankey Diagram</div>
-              <div class="viz-meta">Flows by recorded category</div>
+              <div class="viz-meta">Documented outcomes, Feb 21 2023</div>
             </div>
             <div id="viz-sankey" class="viz-box" aria-label="Sankey placeholder"></div>
-            <div class="viz-foot">Hover highlights a path • “Unknown” is shown explicitly</div>
+            <div class="viz-foot">Hover highlights a path</div>
           </div>
         </div>
       </section>
@@ -665,6 +680,7 @@
       </div>
     </div>
   </footer>
+  <script src="https://unpkg.com/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
   <script src="js/charts/stackedArea.js"></script>
   <script src="js/charts/choropleth.js"></script>
   <script src="js/charts/dotmap.js"></script>
@@ -672,6 +688,7 @@
   <script src="js/charts/lollipop.js"></script>
   <script src="js/charts/dualaxis.js"></script>
   <script src="js/charts/ridgeline.js"></script>
+  <script src="js/charts/sankey.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
