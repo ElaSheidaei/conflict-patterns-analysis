@@ -522,6 +522,12 @@ select{
   opacity:1;
   transform: translateY(0);
 }
+.scroll-trigger { height: 50vh; }
+.step[data-step="heatmap"] .viz{
+  position: sticky;
+  top: 30vh;
+  align-self: flex-start;
+}
 
 /* Responsive */
 @media (max-width: 920px){

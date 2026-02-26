@@ -8,14 +8,19 @@ function drawChart10() {
   const width = container.node().getBoundingClientRect().width || 800;
   const height = 450;
   const margin = { top: 20, right: 30, bottom: 110, left: 50 };
-  const marginGap  = { top: 100, right: 30, bottom: 90, left: 170 };
+  const marginGap  = { top: 70, right: 30, bottom: 100, left: 170 };
 
   const svg = container.append("svg")
     .attr("width", width)
     .attr("height", height)
     .attr("viewBox", [0, 0, width, height])
     .style("font-family", "var(--font-body)");
-
+  const heatLayer = svg.append("g").attr("class", "heat-layer");
+  const gapLayer  = svg.append("g")
+    .attr("class", "gap-layer")
+    .style("opacity", 0)
+    .style("pointer-events", "none");
+    
   // Tooltip INSIDE container (stable)
   container.selectAll(".d3-tooltip").remove();
   const tooltip = container.append("div")
@@ -39,6 +44,26 @@ function drawChart10() {
     d3.csv("data/processed/chart10_void_gap.csv")
   ]).then(([heatWide, gapRaw]) => {
 
+    const vizRoot  = d3.select(container.node().closest(".viz"));
+    const headTitle = vizRoot.select(".viz-title");
+    const headMeta  = vizRoot.select(".viz-meta");
+    const headFoot  = vizRoot.select(".viz-foot");
+
+    function setHead(mode){
+        if(mode === "heatmap"){
+            headTitle.text("Heatmap: State Repression");
+            headMeta.text("ACLED recorded fatalities (monthly)");
+            headFoot.text("Hover for month • “No data” is a first-class value");
+        } else if(mode === "spotlight"){
+            headTitle.text("Heatmap: The Blackout Months");
+            headMeta.text("Nov 2019 & Fall 2022 highlighted");
+            headFoot.text("Scroll to reveal the gap • ACLED vs reported estimates");
+        } else if(mode === "gap"){
+            headTitle.text("The Gap (The Void)");
+            headMeta.text("ACLED recorded vs reported estimates");
+            headFoot.text("Hover shows sources • Blackouts blind international datasets");
+        }
+    }
     // ---------------------------
     // 1) RESHAPE HEATMAP (wide -> long)
     // ---------------------------
@@ -75,7 +100,7 @@ function drawChart10() {
       .interpolator(d3.interpolateReds);
 
     // Background group for heatmap
-    const heatG = svg.append("g").attr("class", "heatmap-layer");
+    const heatG = heatLayer.append("g").attr("class", "heatmap-layer");
 
     const cells = heatG.selectAll("rect")
       .data(heatData)
@@ -103,7 +128,7 @@ function drawChart10() {
       .on("mouseout", () => tooltip.style("opacity", 0));
 
     // Axes
-    svg.append("g")
+    heatLayer.append("g")
       .attr("transform", `translate(0,${height - margin.bottom})`)
       .call(d3.axisBottom(x).tickFormat(d => monthNames[d-1]))
       .call(g => g.select(".domain").attr("stroke","rgba(255,255,255,0.12)"))
@@ -112,7 +137,7 @@ function drawChart10() {
         .attr("fill","var(--muted)")
         .style("font-family","var(--font-mono)"));
 
-    svg.append("g")
+    heatLayer.append("g")
       .attr("transform", `translate(${margin.left},0)`)
       .call(d3.axisLeft(y).tickSize(0))
       .call(g => g.select(".domain").remove())
@@ -124,143 +149,137 @@ function drawChart10() {
     // ---------------------------
     // 2) STAGES
     // ---------------------------
+
+    let gapBuilt = false;
+    function buildGapOnce() {
+        if (gapBuilt) return;
+        gapBuilt = true;
+
+        const m = marginGap; 
+
+        const gapData = gapRaw.map(d => ({
+            event: d.Event,
+            blackout: d.Internet_Blackout,
+            acled: +d.ACLED_Reported_Deaths,
+            real: +d.Real_Estimated_Deaths,
+            source: d.Source
+        }));
+
+        const yGap = d3.scaleBand()
+            .domain(gapData.map(d => d.event))
+            .range([m.top, height - m.bottom])
+            .padding(0.55);
+
+        const xGap = d3.scaleLinear()
+            .domain([0, d3.max(gapData, d => d.real) || 1])
+            .nice()
+            .range([m.left, width - m.right]);
+
+        // axes (draw into gapLayer!)
+        gapLayer.append("g")
+            .attr("transform", `translate(0,${height - m.bottom})`)
+            .call(d3.axisBottom(xGap).ticks(5));
+
+        gapLayer.append("g")
+            .attr("transform", `translate(${m.left},0)`)
+            .call(d3.axisLeft(yGap).tickSize(0))
+            .call(g => g.select(".domain").remove());
+
+        // small title inside plot area (not stuck at top)
+        gapLayer.append("text")
+            .attr("x", 15)
+            .attr("y", m.top -30)
+            .attr("fill", "rgba(255,255,255,0.55)")
+            .style("font-family", "var(--font-mono)")
+            .style("font-size", "11px")
+            .text("ACLED recorded vs reported estimates • Blackout periods spotlight missingness");
+
+        // dumbbells
+        gapLayer.selectAll("line.gap")
+            .data(gapData)
+            .join("line")
+            .attr("x1", d => xGap(d.acled))
+            .attr("x2", d => xGap(d.real))
+            .attr("y1", d => yGap(d.event))
+            .attr("y2", d => yGap(d.event))
+            .attr("stroke", "rgba(228,61,75,0.85)")
+            .attr("stroke-width", 4)
+            .attr("stroke-linecap", "round");
+
+        gapLayer.selectAll("circle.acled")
+            .data(gapData)
+            .join("circle")
+            .attr("cx", d => xGap(d.acled))
+            .attr("cy", d => yGap(d.event))
+            .attr("r", 6)
+            .attr("fill", "rgba(255,255,255,0.55)");
+
+        gapLayer.selectAll("circle.real")
+            .data(gapData)
+            .join("circle")
+            .attr("cx", d => xGap(d.real))
+            .attr("cy", d => yGap(d.event))
+            .attr("r", 8)
+            .attr("fill", "rgba(228,61,75,0.95)");
+        gapLayer.selectAll("circle.real")
+            .style("cursor", "pointer")
+            .on("mouseover", (event, d) => {
+                const x = event.clientX + window.scrollX;
+                const y = event.clientY + window.scrollY;
+
+                tooltip.html(`
+                <div style="margin-bottom: 6px; font-weight: 600; font-family: var(--font-mono); border-bottom: 1px solid var(--line); padding-bottom: 4px;">
+                    ${d.event}
+                </div>
+                <div style="display:flex; justify-content:space-between; gap:16px;">
+                    <span style="color:var(--muted);">ACLED recorded:</span>
+                    <strong>${d3.format(",")(d.acled)}</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; gap:16px;">
+                    <span style="color:var(--muted);">Reported estimate:</span>
+                    <strong style="color:#d13438;">${d3.format(",")(d.real)}</strong>
+                </div>
+                <div style="margin-top:6px; color:var(--muted); font-size:0.78rem;">
+                    Source: ${d.source || "—"}
+                </div>
+                `);
+
+                tooltip
+                .style("opacity", 1)
+                .style("left", (x + 15) + "px")
+                .style("top", (y - 28) + "px");
+            })
+            .on("mouseout", () => {
+                tooltip.style("opacity", 0);
+        });
+    }
     function stage1() {
-      // Full heatmap
-      cells.transition().duration(450).attr("opacity", 1);
+        setHead("heatmap");
+        heatLayer.style("opacity", 1).style("pointer-events", "all");
+        gapLayer.style("opacity", 0).style("pointer-events", "none");
+
+        cells.transition().duration(250).attr("opacity", 1);
     }
 
     function stage2() {
-      // Spotlight: Nov 2019 + Fall 2022 (Sep–Dec)
-      cells.transition().duration(450)
-        .attr("opacity", d => {
-          const isNov2019 = (d.year === 2019 && d.month === 11);
-          const isFall2022 = (d.year === 2022 && d.month >= 9 && d.month <= 12);
-          return (isNov2019 || isFall2022) ? 1 : 0.12;
-        });
+        setHead("spotlight");
+        heatLayer.style("opacity", 1).style("pointer-events", "all");
+        gapLayer.style("opacity", 0).style("pointer-events", "none");
+
+        cells.transition().duration(250)
+            .attr("opacity", d => {
+            const isNov2019 = (d.year === 2019 && d.month === 11);
+            const isFall2022 = (d.year === 2022 && d.month >= 9 && d.month <= 12);
+            return (isNov2019 || isFall2022) ? 1 : 0.12;
+            });
     }
 
     function stage3() {
-      // Fade heatmap out then replace with dumbbell chart
-      tooltip.style("opacity", 0);
+        setHead("gap");
+        buildGapOnce();
 
-      heatG.transition().duration(350).attr("opacity", 0).on("end", () => {
-        heatG.remove();
-        svg.selectAll(".axis-layer").remove(); // (none, but safe)
-
-        // Clear axes groups (we'll redraw)
-        svg.selectAll("g").filter(function() {
-          // remove old axes groups too
-          return d3.select(this).attr("transform")?.includes("translate");
-        }).remove();
-
-        // ---------------------------
-        // Dumbbell from chart10_void_gap.csv
-        // Columns:
-        // Event, Internet_Blackout, ACLED_Reported_Deaths, Real_Estimated_Deaths, The_Void_Gap, Source
-        // ---------------------------
-        const gapData = gapRaw.map(d => ({
-          event: d.Event,
-          blackout: d.Internet_Blackout,
-          acled: +d.ACLED_Reported_Deaths,
-          real: +d.Real_Estimated_Deaths,
-          gap: +d.The_Void_Gap,
-          source: d.Source
-        }));
-
-        const m = marginGap;
-        const yGap = d3.scaleBand()
-          .domain(gapData.map(d => d.event))
-          .range([m.top, height - m.bottom])
-          .padding(0.55);
-
-        const xGap = d3.scaleLinear()
-          .domain([0, d3.max(gapData, d => d.real) || 1])
-          .nice()
-          .range([m.left, width - m.right]);
-
-        // Axes
-        svg.append("g")
-          .attr("transform", `translate(0,${height - m.bottom})`)
-          .call(d3.axisBottom(xGap).ticks(5))
-          .call(g => g.select(".domain").attr("stroke","rgba(255,255,255,0.12)"))
-          .call(g => g.selectAll(".tick line").attr("stroke","rgba(255,255,255,0.12)"))
-          .call(g => g.selectAll(".tick text")
-            .attr("fill","var(--muted)")
-            .style("font-family","var(--font-mono)"));
-
-        svg.append("g")
-          .attr("transform", `translate(${m.left},0)`)
-          .call(d3.axisLeft(yGap).tickSize(0))
-          .call(g => g.select(".domain").remove())
-          .call(g => g.selectAll(".tick text")
-            .attr("fill","var(--text)")
-            .style("font-family","var(--font-mono)")
-            .style("font-weight","700"));
-
-        // Dumbbell lines
-        const g = svg.append("g").attr("class", "gap-layer");
-
-        g.selectAll("line.gap")
-          .data(gapData)
-          .join("line")
-          .attr("class", "gap")
-          .attr("x1", d => xGap(d.acled))
-          .attr("x2", d => xGap(d.real))
-          .attr("y1", d => yGap(d.event))
-          .attr("y2", d => yGap(d.event))
-          .attr("stroke", "rgba(228,61,75,0.85)")
-          .attr("stroke-width", 4)
-          .attr("stroke-linecap", "round");
-
-        // ACLED dot
-        g.selectAll("circle.acled")
-          .data(gapData)
-          .join("circle")
-          .attr("class", "acled")
-          .attr("cx", d => xGap(d.acled))
-          .attr("cy", d => yGap(d.event))
-          .attr("r", 6)
-          .attr("fill", "rgba(255,255,255,0.55)");
-
-        // Real / Estimated dot
-        g.selectAll("circle.real")
-          .data(gapData)
-          .join("circle")
-          .attr("class", "real")
-          .attr("cx", d => xGap(d.real))
-          .attr("cy", d => yGap(d.event))
-          .attr("r", 8)
-          .attr("fill", "rgba(228,61,75,0.95)");
-
-        // Hover tooltip on dumbbell
-        g.selectAll("circle.real, circle.acled, line.gap")
-          .on("mousemove", function(event, d){
-            const [mx,my] = d3.pointer(event, container.node());
-            tooltip.html(`
-              <div style="font-family: var(--font-mono); font-weight: 700; margin-bottom: 4px;">
-                ${d.event}
-              </div>
-              <div>ACLED recorded: <strong>${d3.format(",")(d.acled)}</strong></div>
-              <div>Reported estimate: <strong>${d3.format(",")(d.real)}</strong></div>
-              <div style="margin-top:6px; color: var(--muted); font-size: 0.78rem;">
-                Internet blackout: ${d.blackout} • Source: ${d.source}
-              </div>
-            `)
-            .style("left", (mx + 12) + "px")
-            .style("top", (my + 12) + "px")
-            .style("opacity", 1);
-          })
-          .on("mouseout", () => tooltip.style("opacity", 0));
-
-        // Small legend line (optional, clean)
-        svg.append("text")
-          .attr("x", margin.left)
-          .attr("y", margin.top - 14)
-          .attr("fill", "rgba(255,255,255,0.55)")
-          .style("font-family","var(--font-mono)")
-          .style("font-size","11px")
-          .text("ACLED recorded vs reported estimates • Blackout periods spotlight missingness");
-      });
+        heatLayer.style("opacity", 0).style("pointer-events", "none");
+        gapLayer.style("opacity", 1).style("pointer-events", "all");
     }
 
     // Expose controls
