@@ -528,6 +528,7 @@ select{
   top: 30vh;
   align-self: flex-start;
 }
+#viz-heatmap { overflow: visible; }
 
 /* Responsive */
 @media (max-width: 920px){

@@ -7,8 +7,8 @@ function drawChart10() {
 
   const width = container.node().getBoundingClientRect().width || 800;
   const height = 450;
-  const margin = { top: 20, right: 30, bottom: 110, left: 50 };
-  const marginGap  = { top: 70, right: 30, bottom: 100, left: 170 };
+  const margin = { top: 50, right: 30, bottom: 110, left: 50 };
+  const marginGap  = { top: 60, right: 30, bottom: 140, left: 170 };
 
   const svg = container.append("svg")
     .attr("width", width)
@@ -35,6 +35,28 @@ function drawChart10() {
     .style("opacity", 0)
     .style("font-size", "0.8rem")
     .style("box-shadow", "var(--shadow)");
+
+  function placeTooltip(mx, my) {
+  const pad = 12;
+
+  // show first so we can measure
+  tooltip.style("opacity", 1);
+
+  const tip = tooltip.node().getBoundingClientRect();
+  const box = container.node().getBoundingClientRect();
+
+  // mx,my are relative to container, convert to container space clamps
+  let left = mx + pad;
+  let top  = my + pad;
+
+  const maxLeft = box.width  - tip.width  - pad;
+  const maxTop  = box.height - tip.height - pad;
+
+  left = Math.max(pad, Math.min(left, maxLeft));
+  top  = Math.max(pad, Math.min(top,  maxTop));
+
+  tooltip.style("left", left + "px").style("top", top + "px");
+}
 
   const monthNames = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
   const monthIndex = new Map(monthNames.map((m,i) => [m, i+1]));
@@ -96,8 +118,62 @@ function drawChart10() {
 
     // sequential reds (no custom styling needed)
     const color = d3.scaleSequential()
-      .domain([0, vmax])
+      .domain([0, vmax * 1.5])
       .interpolator(d3.interpolateReds);
+
+    // --- Heatmap color legend ---
+    const legendW = 140, legendH = 8;
+    const legendX = width - margin.right - legendW - 10;
+    const legendY = margin.top - 30;
+
+    const defs = svg.append("defs");
+    const grad = defs.append("linearGradient")
+    .attr("id", "heatLegendGrad")
+    .attr("x1", "0%").attr("x2", "100%")
+    .attr("y1", "0%").attr("y2", "0%");
+
+    grad.selectAll("stop")
+    .data(d3.range(0, 1.0001, 0.1))
+    .join("stop")
+    .attr("offset", d => `${d * 100}%`)
+    .attr("stop-color", d => d3.interpolateReds(d));
+
+    const heatLegend = heatLayer.append("g")
+    .attr("class", "heat-legend")
+    .attr("transform", `translate(${legendX},${legendY})`);
+
+    heatLegend.append("rect")
+    .attr("width", legendW)
+    .attr("height", legendH)
+    .attr("rx", 4)
+    .attr("fill", "url(#heatLegendGrad)")
+    .attr("stroke", "rgba(255,255,255,0.18)")
+    .attr("stroke-width", 1);
+
+    heatLegend.append("text")
+    .attr("x", 0)
+    .attr("y", -4)
+    .attr("fill", "rgba(255,255,255,0.65)")
+    .style("font-family", "var(--font-mono)")
+    .style("font-size", "10px")
+    .text("Recorded deaths");
+
+    heatLegend.append("text")
+    .attr("x", 0)
+    .attr("y", 20)
+    .attr("fill", "rgba(255,255,255,0.65)")
+    .style("font-family", "var(--font-mono)")
+    .style("font-size", "10px")
+    .text("0");
+
+    heatLegend.append("text")
+    .attr("x", legendW)
+    .attr("y", 20)
+    .attr("text-anchor", "end")
+    .attr("fill", "rgba(255,255,255,0.65)")
+    .style("font-family", "var(--font-mono)")
+    .style("font-size", "10px")
+    .text(d3.format(",")(vmax));
 
     // Background group for heatmap
     const heatG = heatLayer.append("g").attr("class", "heatmap-layer");
@@ -121,9 +197,7 @@ function drawChart10() {
           </div>
           <div>ACLED recorded deaths: <strong>${d3.format(",")(d.value)}</strong></div>
         `)
-        .style("left", (mx + 12) + "px")
-        .style("top", (my + 12) + "px")
-        .style("opacity", 1);
+        placeTooltip(mx, my);
       })
       .on("mouseout", () => tooltip.style("opacity", 0));
 
@@ -179,17 +253,36 @@ function drawChart10() {
         gapLayer.append("g")
             .attr("transform", `translate(0,${height - m.bottom})`)
             .call(d3.axisBottom(xGap).ticks(5));
+        gapLayer.selectAll(".tick text")
+            .attr("fill", "var(--muted)")
+            .style("font-family", "var(--font-mono)");
+            gapLayer.selectAll(".domain, .tick line")
+            .attr("stroke", "rgba(255,255,255,0.15)");    
+        gapLayer.append("text")
+            .attr("x", m.left + (width - m.left - m.right) / 2)
+            .attr("y", height - m.bottom + 45)
+            .attr("text-anchor", "middle")
+            .attr("fill", "rgba(255,255,255,0.75)")
+            .style("font-family", "var(--font-mono)")
+            .style("font-size", "11px")
+            .style("font-weight", "600")
+            .text("Estimated deaths (ACLED vs reported)");
 
         gapLayer.append("g")
-            .attr("transform", `translate(${m.left},0)`)
+            .attr("transform", `translate(${m.left - 10},0)`)
             .call(d3.axisLeft(yGap).tickSize(0))
-            .call(g => g.select(".domain").remove());
+            .call(g => g.select(".domain").remove()
+        );
+        gapLayer.selectAll(".tick text")
+            .attr("dy", -(yGap.bandwidth() / 2) + 2)  // move labels upward onto your line
+            .attr("dx", "6px")  // add some horizontal padding;
 
         // small title inside plot area (not stuck at top)
         gapLayer.append("text")
             .attr("x", 15)
             .attr("y", m.top -30)
             .attr("fill", "rgba(255,255,255,0.55)")
+            .attr("fill","var(--muted)")
             .style("font-family", "var(--font-mono)")
             .style("font-size", "11px")
             .text("ACLED recorded vs reported estimates • Blackout periods spotlight missingness");
@@ -202,30 +295,66 @@ function drawChart10() {
             .attr("x2", d => xGap(d.real))
             .attr("y1", d => yGap(d.event))
             .attr("y2", d => yGap(d.event))
-            .attr("stroke", "rgba(228,61,75,0.85)")
+            .attr("stroke", "#bc1f1f")
             .attr("stroke-width", 4)
             .attr("stroke-linecap", "round");
 
         gapLayer.selectAll("circle.acled")
             .data(gapData)
             .join("circle")
+            .attr("class", "acled")
             .attr("cx", d => xGap(d.acled))
             .attr("cy", d => yGap(d.event))
             .attr("r", 6)
             .attr("fill", "rgba(255,255,255,0.55)");
+        gapLayer.selectAll("circle.acled")
+            .style("cursor", "pointer")
+            .on("mouseover", (event, d) => {
+                tooltip.html(`
+                <div style="margin-bottom: 6px; font-weight: 600; font-family: var(--font-mono); border-bottom: 1px solid var(--line); padding-bottom: 4px;">
+                    ${d.event}
+                </div>
+                <div style="display:flex; justify-content:space-between; gap:16px;">
+                    <span style="color:var(--muted);">ACLED recorded:</span>
+                    <strong>${d3.format(",")(d.acled)}</strong>
+                </div>
+                <div style="display:flex; justify-content:space-between; gap:16px;">
+                    <span style="color:var(--muted);">Reported estimate:</span>
+                    <strong style="color:#d13438;">${d3.format(",")(d.real)}</strong>
+                </div>
+                <div style="margin-top:6px; color:var(--muted); font-size:0.78rem;">
+                    Source: ${d.source || "—"}
+                </div>
+                `);
+
+                const [mx, my] = d3.pointer(event, container.node());
+                placeTooltip(mx, my);
+
+                // small visible feedback
+                d3.select(event.currentTarget).attr("r", 9);
+            })
+            .on("mousemove", (event) => {
+                const [mx, my] = d3.pointer(event, container.node());
+                placeTooltip(mx, my);
+            })
+            .on("mouseout", (event) => {
+                tooltip.style("opacity", 0);
+                d3.select(event.currentTarget).attr("r", 6);
+            });
 
         gapLayer.selectAll("circle.real")
             .data(gapData)
             .join("circle")
+            .attr("class", "real")
             .attr("cx", d => xGap(d.real))
             .attr("cy", d => yGap(d.event))
             .attr("r", 8)
-            .attr("fill", "rgba(228,61,75,0.95)");
+            .attr("fill", "#bc1f1f");
         gapLayer.selectAll("circle.real")
             .style("cursor", "pointer")
             .on("mouseover", (event, d) => {
-                const x = event.clientX + window.scrollX;
-                const y = event.clientY + window.scrollY;
+                // const x = event.clientX + window.scrollX;
+                // const y = event.clientY + window.scrollY;
 
                 tooltip.html(`
                 <div style="margin-bottom: 6px; font-weight: 600; font-family: var(--font-mono); border-bottom: 1px solid var(--line); padding-bottom: 4px;">
@@ -244,18 +373,65 @@ function drawChart10() {
                 </div>
                 `);
 
-                tooltip
-                .style("opacity", 1)
-                .style("left", (x + 15) + "px")
-                .style("top", (y - 28) + "px");
+                // tooltip
+                // .style("opacity", 1)
+                // .style("left", (x + 15) + "px")
+                // .style("top", (y - 28) + "px");
+                const [mx, my] = d3.pointer(event, container.node());
+                placeTooltip(mx, my);
+
+                d3.select(event.currentTarget).attr("r", 11);
             })
-            .on("mouseout", () => {
+            .on("mousemove", (event) => {
+                const [mx, my] = d3.pointer(event, container.node());
+                placeTooltip(mx, my);
+            })
+            .on("mouseout", (event) => {
                 tooltip.style("opacity", 0);
+                d3.select(event.currentTarget).attr("r", 8);
         });
+        const legendX = width - m.right - 450;
+        const legendY = m.top ;
+
+        const legend = gapLayer.append("g")
+        .attr("class", "gap-legend")
+        .attr("transform", `translate(${legendX},${legendY})`)
+        .style("font-family", "var(--font-mono)")
+        .style("font-size", "11px");
+
+        legend.append("circle")
+        .attr("cx", 0).attr("cy", 0).attr("r", 6)
+        .attr("fill", "rgba(255,255,255,0.55)");
+
+        legend.append("text")
+        .attr("x", 12).attr("y", 4)
+        .attr("fill", "rgba(255,255,255,0.75)")
+        .text("ACLED recorded");
+
+        legend.append("circle")
+        .attr("cx", 0).attr("cy", 18).attr("r", 8)
+        .attr("fill", "#bc1f1f");
+
+        legend.append("text")
+        .attr("x", 12).attr("y", 22)
+        .attr("fill", "rgba(255,255,255,0.75)")
+        .text("Reported estimate");
+        const bb = legend.node().getBBox();
+        legend.insert("rect", ":first-child")
+        .attr("x", bb.x - 10)
+        .attr("y", bb.y - 8)
+        .attr("width", bb.width + 20)
+        .attr("height", bb.height + 16)
+        .attr("rx", 10)
+        .attr("ry", 10)
+        .attr("fill", "rgba(0,0,0,0.25)")
+        .attr("stroke", "rgba(255,255,255,0.14)")
+        .attr("stroke-width", 1);
     }
     function stage1() {
         setHead("heatmap");
         heatLayer.style("opacity", 1).style("pointer-events", "all");
+        heatLayer.select(".heat-legend").style("opacity", 1);
         gapLayer.style("opacity", 0).style("pointer-events", "none");
 
         cells.transition().duration(250).attr("opacity", 1);
@@ -264,6 +440,7 @@ function drawChart10() {
     function stage2() {
         setHead("spotlight");
         heatLayer.style("opacity", 1).style("pointer-events", "all");
+        heatLayer.select(".heat-legend").style("opacity", 1);
         gapLayer.style("opacity", 0).style("pointer-events", "none");
 
         cells.transition().duration(250)
@@ -279,6 +456,7 @@ function drawChart10() {
         buildGapOnce();
 
         heatLayer.style("opacity", 0).style("pointer-events", "none");
+        heatLayer.select(".heat-legend").style("opacity", 0);
         gapLayer.style("opacity", 1).style("pointer-events", "all");
     }
 
