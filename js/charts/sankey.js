@@ -70,23 +70,23 @@ function drawSankeyChart() {
         });
 
         // 3. Color Logic
-        // function getNodeColor(name) {
-        //     if (name === "Killed" || name === "Executed") return "#d13438"; // Blood Red
-        //     if (name === "Status Unknown (The Void)") return "#1a1a1a"; // Deep Black/Void
-        //     if (name === "Protesters") return "#5c7080"; // Muted Slate
-        //     if (name === "Released on Bail") return "#8b9ba8"; // Lighter gray
-        //     return "#404040"; // Dark gray for arrests/prison
-        // }
         function getNodeColor(name) {
-            if (name === "Killed" || name === "Executed") return "#e63946";  // stronger red
-            if (name === "Status Unknown (The Void)") return "#0f172a";      // deep navy, not black
-            if (name === "Protesters") return "#94a3b8";                     // light slate
-            if (name === "Arrested") return "#64748b";                       // mid slate
-            if (name === "Identified / Tracked") return "#cbd5e1";           // light gray
-            if (name === "Released on Bail") return "#a8b5c2";
-            if (name === "Sentenced to Prison") return "#475569";
-            return "#334155";
+            if (name === "Killed" || name === "Executed") return "#d13438"; // Blood Red
+            if (name === "Status Unknown (The Void)") return "#222222"; // Deep Black/Void
+            if (name === "Protesters") return "#5c7080"; // Muted Slate
+            if (name === "Released on Bail") return "#8b9ba8"; // Lighter gray
+            return "#404040"; // Dark gray for arrests/prison
         }
+        // function getNodeColor(name) {
+        //     if (name === "Killed" || name === "Executed") return "#e63946";  // stronger red
+        //     if (name === "Status Unknown (The Void)") return "#0f172a";      // deep navy, not black
+        //     if (name === "Protesters") return "#94a3b8";                     // light slate
+        //     if (name === "Arrested") return "#64748b";                       // mid slate
+        //     if (name === "Identified / Tracked") return "#cbd5e1";           // light gray
+        //     if (name === "Released on Bail") return "#a8b5c2";
+        //     if (name === "Sentenced to Prison") return "#475569";
+        //     return "#334155";
+        // }
 
         // 4. Draw Links (The flows)
         const link = svg.append("g")
@@ -188,13 +188,13 @@ function drawSankeyChart() {
             .text(d => d.name)
             // Add custom coloring to text labels for extreme emphasis on "The Void" and "Killed"
             .attr("fill", d => {
-                if (d.name === "Killed" || d.name === "Executed") return "#d13438";
+                if (d.name === "Killed" || d.name === "Executed") return "#ff4d4d";
                 if (d.name === "Status Unknown (The Void)") return "var(--text)"; 
-                return "var(--muted)";
+                return "var(--text)";
             })
             // Make "The Void" font even more prominent
-            .style("font-style", d => d.name === "Status Unknown (The Void)" ? "italic" : "normal")
-            .style("font-size", d => d.name === "Status Unknown (The Void)" ? "13px" : "11px");
+            .style("font-style", "normal")
+            .style("font-size", "11px");
 
 
     });

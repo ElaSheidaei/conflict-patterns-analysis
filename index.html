@@ -558,6 +558,10 @@
               We contrast conflict presence with available recorded civilian violence data.
               This is a direct uncertainty visualization: missingness is shown, not hidden.
             </p>
+            <!-- NEW: scrolly triggers (invisible) -->
+            <div class="scroll-trigger" data-trigger="hm-1"></div>
+            <div class="scroll-trigger" data-trigger="hm-2"></div>
+            <div class="scroll-trigger" data-trigger="hm-3"></div>
             <div class="takeaway">
               <span class="takeaway-label">Takeaway</span>
               <span>Absence of data is not absence of harm.</span>
@@ -565,8 +569,8 @@
           </div>
           <div class="viz">
             <div class="viz-head">
-              <div class="viz-title">Heatmap: conflict vs missing data</div>
-              <div class="viz-meta">Binary indicators</div>
+              <div class="viz-title">Heatmap: State Repression</div>
+              <div class="viz-meta">ACLED recorded fatalities (monthly)</div>
             </div>
             <div id="viz-heatmap" class="viz-box" aria-label="Heatmap placeholder"></div>
             <div class="viz-foot">Hover for explanation • “No data” is a first-class value</div>
@@ -689,6 +693,8 @@
   <script src="js/charts/dualaxis.js"></script>
   <script src="js/charts/ridgeline.js"></script>
   <script src="js/charts/sankey.js"></script>
+  <script src="js/charts/heatmap.js"></script>
+  <script src="js/scroll_chart10.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>
