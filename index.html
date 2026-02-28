@@ -364,7 +364,7 @@
           <div class="viz">
             <div class="viz-head">
               <div class="viz-title">Slope Chart</div>
-              <div class="viz-meta">Metric: fatalities (period A vs period B)</div>
+              <div class="viz-meta">Metric: Fatalities (2017 vs 2025)</div>
             </div>
             <div id="viz-slope" class="viz-box" aria-label="Slope chart placeholder"></div>
             <div class="viz-foot">Hover highlights a country • Click to focus</div>
@@ -377,29 +377,67 @@
         <div class="container step-inner">
           <div class="text">
             <h4>Nature of Violence Changes Across Contexts</h4>
+
             <p>
-              We compare how violence is “composed” in different countries: military confrontation versus civil repression.
-              A toggle can switch between event counts and fatality shares.
+            This chart compares how violence is structured across countries.
+            Instead of measuring how much violence occurs, it reveals how different types of events compose the overall pattern — military confrontation, civil unrest, and state repression.
             </p>
+
+            <p>
+            The composition varies significantly. In some countries, violence is dominated by military conflict, while in others, civil unrest accounts for the majority of recorded events. State repression appears as a smaller but distinct component in most contexts.
+            These differences suggest that conflict is not uniform in nature — it reflects different political and social dynamics.
+            </p>
+
+            <h3>How to read</h3>
+
+            <p>
+            Each bar represents 100% of recorded events in a country.
+            The segments show the percentage share of each event type.
+            Switching between “Events” and “Fatalities” reveals whether the structure of violence (event mix) aligns with its severity (fatal impact).
+            </p>
+
             <div class="takeaway">
               <span class="takeaway-label">Takeaway</span>
-              <span>Structure (event mix) and severity (fatalities) are not the same.</span>
+              <span>Structure (event composition) and severity (fatalities) do not necessarily align across contexts.</span>
             </div>
           </div>
           <div class="viz">
             <div class="viz-head">
               <div class="viz-title">100% Stacked Bar</div>
-              <div class="viz-meta">Mode: events or fatalities</div>
+              <!-- <div class="viz-meta">Mode: events or fatalities</div> -->
             </div>
 
             <div class="controls">
               <button class="btn" id="btn-stacked-events" aria-pressed="true">Events</button>
-              <button class="btn" id="btn-stacked-fatal" aria-pressed="false">Fatalities</button>
             </div>
 
             <div id="viz-stacked100" class="viz-box" aria-label="Stacked bar placeholder"></div>
-            <div class="viz-foot">Hover for percentages • Clear legends and labels</div>
+
+            <div class="legend-block">
+
+              <div class="legend-title">Event Type</div>
+
+              <div class="legend-row">
+                <span class="legend-dot blue"></span> Military confrontation
+              </div>
+
+              <div class="legend-row">
+                <span class="legend-dot gray"></span> Civil unrest
+              </div>
+
+              <div class="legend-row">
+                <span class="legend-dot red"></span> State repression
+              </div>
+
+              <div class="legend-note">
+                Bars represent percentage share within each country.
+              </div>
+
+            </div>
+
+            <div class="viz-foot">Hover to see percentage share within each country</div>
           </div>
+
         </div>
       </section>
     </section>
@@ -685,6 +723,7 @@
   <script src="js/charts/choropleth.js"></script>
   <script src="js/charts/dotmap.js"></script>
   <script src="js/charts/slope.js"></script>
+  <script src="js/charts/stackedbar.js"></script> 
   <script src="js/charts/lollipop.js"></script>
   <script src="js/charts/dualaxis.js"></script>
   <script src="js/charts/ridgeline.js"></script>

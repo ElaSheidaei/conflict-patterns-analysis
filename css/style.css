@@ -295,6 +295,8 @@ a:hover{ opacity:.9; }
   position:relative;
   overflow:hidden;
 }
+
+
 .viz-foot{
   margin-top:.55rem;
   color:var(--muted);
@@ -342,7 +344,7 @@ a:hover{ opacity:.9; }
 /* Match exact D3 colors */
 .legend-dot.protests { background: #4da3ff; }
 .legend-dot.violence { background: #ff5a5a; }
-.legend-dot.battles  { background: #ffa500; }
+.legend-dot.battles  { background: #999; }
 
 /* Size legend layout */
 .size-legend {
@@ -383,6 +385,56 @@ a:hover{ opacity:.9; }
 
 /* Slope Chart */
 
+/* Stacked bar */
+#viz-stacked svg text {
+  font-size: 12px;
+}
+
+#viz-stacked .domain,
+#viz-stacked .tick line {
+  stroke: #444;
+}
+/* Stacked legend */
+
+.legend-block{
+  margin-top: 1rem;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.legend-title{
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: .6px;
+  text-transform: uppercase;
+  margin-bottom: .4rem;
+}
+
+.legend-row{
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  margin: .25rem 0;
+}
+
+.legend-dot{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.legend-dot.blue{ background:#4da3ff; }
+.legend-dot.gray{ background:#8a8f98; }
+.legend-dot.red{ background:#d23b3b; }
+
+.legend-note{
+  margin-top: .6rem;
+  font-size: 12px;
+  opacity: .7;
+}
+
+/* Stacked bar */
+
 .controls{
   display:flex;
   flex-wrap:wrap;
@@ -400,8 +452,10 @@ a:hover{ opacity:.9; }
   cursor:pointer;
 }
 .btn[aria-pressed="true"]{
-  border-color: rgba(210,59,59,.55);
-  background: rgba(210,59,59,.14);
+  border-color: rgba(210,59,59,.65);
+  background: rgba(210,59,59,.18);
+  color: #fff;
+  box-shadow: 0 0 8px rgba(210,59,59,.35);
 }
 .btn:hover{ background:rgba(255,255,255,.06); }
 
@@ -522,6 +576,7 @@ select{
   opacity:1;
   transform: translateY(0);
 }
+
 
 /* Responsive */
 @media (max-width: 920px){
