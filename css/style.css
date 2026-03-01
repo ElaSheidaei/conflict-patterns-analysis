@@ -576,13 +576,14 @@ select{
   opacity:1;
   transform: translateY(0);
 }
-.scroll-trigger { height: 50vh; }
+.scroll-trigger { height: 1px; }
+.scroll-trigger[data-trigger="hm-3"]{ padding-bottom: 10vh; }
 .step[data-step="heatmap"] .viz{
   position: sticky;
   top: 30vh;
   align-self: flex-start;
 }
-#viz-heatmap { overflow: visible; }
+/* #viz-heatmap { overflow: visible; } */
 
 
 /* Responsive */
