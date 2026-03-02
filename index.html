@@ -664,69 +664,300 @@
       </section>
     </section>
 
-    <!-- Methodology (required) -->
-    <section id="methodology" class="methodology">
-      <div class="container">
-        <h2>Methodology</h2>
-        <p class="methodology-intro">
-          This section documents datasets, preprocessing, assumptions, and limitations to ensure methodological transparency.
-        </p>
+        <section id="methodology" class="methodology">
+          <div class="container">
+            <h2>Methodology</h2>
 
-        <div class="grid-2">
-          <div class="card">
-            <h3>Data sources</h3>
-            <ul>
-              <li><strong>UCDP / Our World in Data</strong>: conflict deaths by type, region, and country.</li>
-              <li><strong>ACLED</strong>: event-level data (Middle East), coordinates and event categories.</li>
-              <li><strong>UN population (optional)</strong>: per-capita normalization for country comparisons.</li>
-            </ul>
-            <p class="small muted">
-              Links to sources will be listed in the README and footer of the website.
+            <p class="methodology-intro">
+              This section documents datasets, preprocessing, assumptions, and limitations to ensure methodological transparency.
+              Each narrative chapter explicitly documents which datasets were used, how they were transformed, and which preprocessing 
+              notebooks generated the final visualization inputs.
             </p>
-          </div>
 
-          <div class="card">
-            <h3>Processing pipeline</h3>
-            <ol>
-              <li>Download raw datasets (documented).</li>
-              <li>Clean column names and standardize keys (country names, ISO codes).</li>
-              <li>Filter to required periods/regions (global vs Middle East).</li>
-              <li>Aggregate to chart-ready tables (weekly totals, top-10 rankings, shares).</li>
-              <li>Export small CSV files used by D3 visualizations.</li>
-            </ol>
-          </div>
-        </div>
+            <!-- 1. PRIMARY DATA SOURCES -->
+            <div class="card">
+              <h3>Primary Data Sources</h3>
+              <ul>
+                <li>
+                  <strong><a href="https://ourworldindata.org/grapher/deaths-in-armed-conflicts-by-type.csv">
+                    UCDP (via Our World in Data)</strong> – Global conflict deaths by type (1946–2024)</a>
+                </li>
 
-        <div class="grid-2">
-          <div class="card">
-            <h3>Cleaning & assumptions</h3>
-            <ul>
-              <li>Removed rows with missing essential fields for specific charts (e.g., missing coordinates for maps).</li>
-              <li>Computed shares (%) to compare structures across countries.</li>
-              <li>Used explicit “No data” states where applicable to avoid hiding uncertainty.</li>
-            </ul>
-          </div>
+                <li>
+                  <strong><a href="https://ourworldindata.org/grapher/deaths-from-one-sided-violence.csv">
+                    UCDP One-Sided Violence</strong> – Civilian targeting statistics</a>
+                </li>
 
-          <div class="card">
-            <h3>Limitations</h3>
-            <ul>
-              <li><strong>Reporting bias:</strong> conflict data coverage varies by region and time (ACLED/UCDP).</li>
-              <li><strong>Missing data:</strong> some conflicts exist with incomplete civilian reporting.</li>
-              <li><strong>Category ambiguity:</strong> event labels may not map perfectly to real-world mechanisms.</li>
-              <li><strong>Aggregation loss:</strong> weekly/annual summaries can hide local variation.</li>
-            </ul>
-          </div>
-        </div>
+                <li>
+                  <strong><a href="https://acleddata.com/aggregated/aggregated-data-middle-east">
+                    ACLED Middle East dataset</strong> – Event-level conflict data</a>
+                </li>
 
-        <div class="card">
-          <h3>What to keep in mind</h3>
-          <ul class="checklist">
-            <li>Patterns shown are <strong>recorded patterns</strong>, not the full reality.</li>
-            <li>Absence of data ≠ absence of harm.</li>
-            <li>Correlation is not causation.</li>
-            <li>Use per-capita views when comparing countries of different sizes (optional toggle).</li>
-          </ul>
-        </div>
+                <li>
+                  <strong><a href="https://acleddata.com/system/files/2026-02/number_of_events_targeting_civilians_by_country-year_as-of-30Jan2026.xlsx">
+                    ACLED Targeting Civilians dataset</strong></a>
+                </li>
+
+                <li>
+                  <strong><a href="https://ourworldindata.org/grapher/population-unwpp.csv">
+                    UN World Population Prospects</strong> – Population normalization</a>
+                </li>
+
+                <li>
+                  <strong><a href="https://www.en-hrana.org/a-comprehensive-report-of-the-first-82-days-of-nationwide-protests-in-iran/">
+                    HRANA (Iran 2022 Protests)</strong></a> – <a href="https://github.com/justin-2028/Daily-Statistics-of-the-2022-Iran-Protests">
+                    Daily Statistics of the 2022 Iran Protests (GitHub repository compiling HRANA data)</a>
+                </li>
+                <li>
+                  <strong><a href="https://www.reuters.com/article/us-iran-protests-specialreport-idUSKBN1YR0QR" target="_blank">
+                  Reuters Special Report (Dec 23, 2019)</strong>
+                  </a>
+                </li>
+              </ul>
+
+              <p class="small muted">
+                All original files are stored in <code>/data/raw</code>. Processed chart-ready files 
+                are exported to <code>/data/processed</code>.
+              </p>
+            </div>
+
+            <!-- 2. GLOBAL PREPROCESSING -->
+            <div class="card">
+              <h3>Data Processing Pipeline</h3>
+              <p>
+                Preprocessing was conducted in Python using Pandas. The workflow includes:
+              </p>
+              <ul>
+                <li><strong>Harmonization:</strong> standardizing country names/ISO codes and column formats across sources.</li>
+                <li><strong>Filtering:</strong> selecting the relevant time range and regions per narrative chapter.</li>
+                <li><strong>Aggregation:</strong> producing annual, monthly, and country-level metrics aligned with each chart.</li>
+                <li><strong>Normalization (optional):</strong> per-capita rates using UN WPP population where needed.</li>
+                <li><strong>Export:</strong> generating lightweight, chart-ready CSV files for D3.js.</li>
+              </ul>
+              <p class="small muted">
+                Each chapter’s specific data transformations are documented in the corresponding Jupyter notebooks and README, 
+                which are included in the repository.
+              </p>
+              <p class="small muted">
+                Below, you can download the <strong>chapter-specific processed datasets</strong> used by the visualizations,
+                along with the corresponding <strong>preprocessing notebooks</strong>.
+              </p>
+            <!-- 3. CHAPTER-SPECIFIC DATA MAPPING -->
+            <!-- <div class="card"> -->
+              <div class="grid-2">
+                <!-- Chapter 1 -->
+                <div class="mini-card">
+                  <h4>Chapter 1 — Global Conflict Transformation</h4>
+
+                  <ul class="meta-list">
+                    <li>
+                      <span class="meta-key">Data</span>
+                      <span class="chips">
+                        <a class="chip" href="data/processed/chart1_streamgraph.csv" target="_blank" rel="noopener">chart1_streamgraph.csv</a>
+                        <a class="chip" href="data/processed/chart2_choropleth.csv" target="_blank" rel="noopener">chart2_choropleth.csv</a>
+                        <a class="chip" href="data/processed/chart2_choropleth_extended.csv" target="_blank" rel="noopener">chart2_choropleth_extended.csv</a>
+                        <a class="chip" href="data/processed/chart3_lollipop.csv" target="_blank" rel="noopener">chart3_lollipop.csv</a>
+                      </span>
+                    </li>
+
+                    <li>
+                      <span class="meta-key">Notebook</span>
+                      <a class="meta-link" href="https://github.com/elasheidaei/conflict-patterns-analysis/blob/main/notebooks/01_Data_Preprocessing_Global_Context.ipynb"
+                        target="_blank" rel="noopener">
+                        01_Data_Preprocessing_Global_Context.ipynb
+                      </a>
+                    </li>
+                    <li>
+                      <span class="meta-key">Processing</span>
+                      <span class="meta-text">Filtering → aggregation → per-capita normalization</span>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Chapter 2 -->
+                <div class="mini-card">
+                  <h4>Chapter 2 — Regional Civilian Violence (Middle East)</h4>
+
+                  <ul class="meta-list">
+                    <li>
+                      <span class="meta-key">Data</span>
+                      <span class="chips">
+                        <a class="chip" href="data/processed/chart4_dotmap.csv" target="_blank" rel="noopener">chart4_dotmap.csv</a>
+                        <a class="chip" href="data/processed/chart5_slope.csv" target="_blank" rel="noopener">chart5_slope.csv</a>
+                        <a class="chip" href="data/processed/chart6_stacked.csv" target="_blank" rel="noopener">chart6_stacked.csv</a>
+                      </span>
+                    </li>
+
+                    <li>
+                      <span class="meta-key">Notebook</span>
+                      <a class="meta-link"
+                        href="https://github.com/elasheidaei/conflict-patterns-analysis/blob/main/notebooks/02_Data_Preprocessing_Regional_Analysis.ipynb"
+                        target="_blank" rel="noopener">
+                        02_Data_Preprocessing_Regional_Analysis.ipynb
+                      </a>
+                    </li>
+
+                    <li>
+                      <span class="meta-key">Processing</span>
+                      <span class="meta-text">
+                        Filtering (2017–2025) + aggregation (spatial + country-year) + event-type mapping into narrative categories.
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Chapter 3 -->
+                <div class="mini-card">
+                  <h4>Chapter 3 — Repression Patterns</h4>
+
+                  <ul class="meta-list">
+                    <li>
+                      <span class="meta-key">Data</span>
+                      <span class="chips">
+                        <a class="chip" href="data/processed/chart7_dual_axis.csv" target="_blank" rel="noopener">chart7_dual_axis.csv</a>
+                        <a class="chip" href="data/processed/chart8_ridgeline.csv" target="_blank" rel="noopener">chart8_ridgeline.csv</a>
+                      </span>
+                    </li>
+
+                    <li>
+                      <span class="meta-key">Notebook</span>
+                      <a class="meta-link"
+                        href="https://github.com/elasheidaei/conflict-patterns-analysis/blob/main/notebooks/03_Data_Preprocessing_Pattern.ipynb"
+                        target="_blank" rel="noopener">
+                        03_Data_Preprocessing_Pattern.ipynb
+                      </a>
+                    </li>
+
+                    <li>
+                      <span class="meta-key">Processing</span>
+                      <span class="meta-text">
+                        Iran subset (2017–2025) + event-type filtering; monthly aggregation for dual-axis,
+                        weekly aggregation for ridgeline distribution.
+                      </span>
+                    </li>
+                  </ul>
+                </div>
+
+                <!-- Chapter 4 -->
+                <div class="mini-card">
+                  <h4>Chapter 4 — The Void (Case Studies & Reporting Gaps)</h4>
+
+                  <ul class="meta-list">
+
+                    <li>
+                      <span class="meta-key">Data</span>
+                      <span class="chips">
+                        <a class="chip" href="data/processed/chart9_sankey.json" target="_blank" rel="noopener">chart9_sankey.json</a>
+                        <a class="chip" href="data/processed/chart10_heatmap.csv" target="_blank" rel="noopener">chart10_heatmap.csv</a>
+                      </span>
+                    </li>
+
+                    <li>
+                      <span class="meta-key">Notebook</span>
+                      <a class="meta-link"
+                        href="https://github.com/elasheidaei/conflict-patterns-analysis/blob/main/notebooks/04_Data_Preprocessing_The_Void.ipynb"
+                        target="_blank" rel="noopener">
+                        04_Data_Preprocessing_The_Void.ipynb
+                      </a>
+                    </li>
+
+                    <li>
+                      <span class="meta-key">Processing</span>
+                      <span class="meta-text">
+                        Manual structuring of HRANA cumulative outcomes (Sankey) +
+                        monthly aggregation of ACLED Iran events (heatmap) with contextual gap framing.
+                      </span>
+                    </li>
+
+                  </ul>
+
+                  <p class="small muted" style="margin-top:.6rem;">
+                    Detailed methodology for node construction (Chart 9) and reporting gap justification (Chart 10)
+                    is documented below and fully expanded in the README.
+                  </p>
+                </div>
+
+              </div>
+
+            <!-- 4. SPECIAL CASE STUDIES -->
+            <div class="card" style="margin-top:1.2rem;">
+              <h4>Chapter 4 — Methodological Notes</h4>
+
+              <h5>Chart 9 — Sankey (Iran 2022 Protest Outcomes)</h5>
+              <p>
+                The Sankey diagram represents cumulative documented outcomes during the 2022
+                nationwide protests in Iran (up to February 21, 2023). Data were manually compiled
+                from HRANA reports and secondary confirmations (UK Parliament CBP-9679).
+                Categories (arrests, fatalities, identified detainees, prison sentences, executions)
+                were structured into an aggregated node–link format for visualization.
+              </p>
+
+              <ul>
+                <li>
+                  <a href="https://www.en-hrana.org/a-comprehensive-report-of-the-first-82-days-of-nationwide-protests-in-iran/" target="_blank">
+                  HRANA comprehensive report (Primary source)
+                  </a>
+                </li>
+                <li>
+                  <a href="https://github.com/justin-2028/Daily-Statistics-of-the-2022-Iran-Protests" target="_blank">
+                  HRANA GitHub compilation
+                  </a>
+                </li>
+                <li>
+                  <a href="https://commonslibrary.parliament.uk/research-briefings/cbp-9679/" target="_blank">
+                  UK Parliament CBP-9679
+                  </a>
+                </li>
+              </ul>
+
+              <p class="small muted">
+                Figures represent documented cases and should be interpreted as minimum verified estimates.
+              </p>
+
+              <h5 style="margin-top:1rem;">Chart 10 — Reporting Gap Context (2019 & 2022)</h5>
+              <p>
+                The heatmap visualizes monthly ACLED-recorded protest activity in Iran (2017–2025).
+                External investigative reporting is used to contextualize potential undercounting
+                during documented blackout periods.
+              </p>
+
+              <ul>
+                <li>
+                  <a href="https://www.reuters.com/article/us-iran-protests-specialreport-idUSKBN1YR0QR" target="_blank">
+                  Reuters (Dec 23, 2019) — Estimated ~1,500 deaths in Nov 2019 protests
+                  </a>
+                </li>
+                <li>
+                  <a href="https://netblocks.org/reports/internet-restored-in-iran-after-protest-shutdown-dAmqddA9" target="_blank">
+                  NetBlocks — Internet shutdown (Nov 2019)
+                  </a>
+                </li>
+                <li>
+                  <a href="https://netblocks.org/reports/internet-disrupted-in-iran-amid-protests-over-death-of-mahsa-amini-X8qVEwAD" target="_blank">
+                  NetBlocks — 2022 connectivity disruptions
+                  </a>
+                </li>
+              </ul>
+
+              <p class="small muted">
+                The project does not statistically adjust ACLED counts. The “gap” framing is interpretative,
+                highlighting structural reporting constraints rather than modifying underlying data.
+              </p>
+            </div>
+            </div>
+            <!-- 5. LIMITATIONS -->
+           <div class="card">
+              <h3>5. Limitations & Uncertainty</h3>
+              <ul>
+                <li>Conflict documentation depends on monitoring capacity and media access.</li>
+                <li>Aggregation reduces temporal and local resolution.</li>
+                <li>Protest repression data represent documented minimums, not full totals.</li>
+                <li>Co-occurrence does not imply causality.</li>
+              </ul>
+            </div> 
+          
+          </div>
+        </section>
       </div>
     </section>
   </main>
@@ -738,14 +969,14 @@
         <div class="footer-title">Team</div>
         <div class="footer-text">
           Elaheh Sheidaei — <span class="muted">Role: Storytelling + Design</span><br />
-          Moein Vadikheir — <span class="muted">Role: Data + Implementation</span>
+          Moein Vadikheyr — <span class="muted">Role: Data + Implementation</span>
         </div>
       </div>
 
       <div>
         <div class="footer-title">Project</div>
         <div class="footer-text">
-          Repository: <span class="muted">(link added when public)</span><br />
+          Repository: <span class="muted"><a href="https://github.com/ElaSheidaei/conflict-patterns-analysis">conflict-patterns-analysis</a></span><br />
           Built with HTML/CSS/JS + D3.js
         </div>
       </div>
@@ -753,7 +984,7 @@
       <div>
         <div class="footer-title">Sources</div>
         <div class="footer-text">
-          UCDP / Our World in Data • ACLED • UN population (optional)
+          <a href="https://ucdp.uu.se/">UCDP</a> • <a href="https://acleddata.com/">ACLED</a> • <a href="https://ourworldindata.org/grapher/population-unwpp.csv">UN population</a>
         </div>
       </div>
     </div>
