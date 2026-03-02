@@ -580,10 +580,134 @@ select{
 .scroll-trigger[data-trigger="hm-3"]{ padding-bottom: 10vh; }
 .step[data-step="heatmap"] .viz{
   position: sticky;
-  top: 30vh;
+  top: 15vh;
   align-self: flex-start;
 }
-/* #viz-heatmap { overflow: visible; } */
+.mini-card ul{
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.mini-card li{
+  margin: 0.25rem 0;
+}
+
+/* --- Chapter cards readability --- */
+.mini-card{
+  padding: 1rem;
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 16px;
+  background: rgba(255,255,255,0.02);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+}
+
+.mini-card h4{
+  margin: 0 0 0.9rem 0;
+  font-size: 1.05rem;
+  letter-spacing: 0.2px;
+}
+
+.meta-list{
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.meta-list li{
+  display: grid;
+  grid-template-columns: 150px 1fr;
+  gap: 0.85rem;
+  padding: 0.55rem 0;
+  border-top: 1px dashed rgba(255,255,255,0.08);
+}
+
+.meta-list li:first-child{
+  border-top: none;
+  padding-top: 0;
+}
+
+.meta-key{
+  font-weight: 700;
+  color: rgba(255,255,255,0.88);
+  white-space: nowrap;
+}
+
+.meta-text{
+  color: rgba(255,255,255,0.78);
+  line-height: 1.55;
+}
+
+.meta-link{
+  color: rgba(255,255,255,0.92);
+  text-decoration: underline;
+  text-decoration-color: rgba(255,255,255,0.35);
+  text-underline-offset: 3px;
+}
+
+.meta-link:hover{
+  text-decoration-color: rgba(255,255,255,0.75);
+}
+
+/* Chips for processed files */
+.chips{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  transition: border-color 180ms ease, background 180ms ease, color 180ms ease, transform 120ms ease;
+}
+
+.chip{
+  display: inline-flex;
+  align-items: center;
+  padding: 0.35rem 0.55rem;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(118, 10, 10, 0.04);
+  color: rgba(255,255,255,0.90);
+  font-size: 0.85rem;
+  text-decoration: none;
+}
+
+.chip:hover{
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(255,255,255,0.22);
+}
+/* Prevent overflow inside cards */
+.mini-card, .meta-list, .meta-list li {
+  overflow: hidden;
+}
+
+.meta-link {
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+/* Let the right column shrink properly (critical in CSS grid) */
+.meta-list li > * {
+  min-width: 0;
+}
+
+/* Make meta grid responsive */
+.meta-list li{
+  display: grid;
+  grid-template-columns: 140px 1fr; /* slightly smaller left column */
+  gap: 0.85rem;
+}
+
+/* On smaller widths, stack label/value to avoid overflow */
+@media (max-width: 700px){
+  .meta-list li{
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+}
+
+#methodology .card{
+  margin-bottom: 1rem;
+}
+#methodology .card:last-child{
+  margin-bottom: 0;
+}
 
 
 /* Responsive */
