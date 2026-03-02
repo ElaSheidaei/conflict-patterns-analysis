@@ -73,16 +73,16 @@ function drawChart10() {
 
     function setHead(mode){
         if(mode === "heatmap"){
-            headTitle.text("Heatmap: State Repression");
-            headMeta.text("ACLED recorded fatalities (monthly)");
+            headTitle.text("State Repression Over Time (2017–2025)");
+            headMeta.text("Calendar heatmap — ACLED recorded fatalities");
             headFoot.text("Hover for month • “No data” is a first-class value");
         } else if(mode === "spotlight"){
-            headTitle.text("Heatmap: The Blackout Months");
-            headMeta.text("Nov 2019 & Fall 2022 highlighted");
+            headTitle.text("Blackout Months During Uprisings (2017–2025)");
+            headMeta.text("Calendar heatmap — ACLED recorded fatalities");
             headFoot.text("Scroll to reveal the gap • ACLED vs reported estimates");
         } else if(mode === "gap"){
-            headTitle.text("The Gap (The Void)");
-            headMeta.text("ACLED recorded vs reported estimates");
+            headTitle.text("Reported vs Recorded Fatalities During Blackouts (2019 & 2022)");
+            headMeta.text("Comparison plot — ACLED records vs independent estimates");
             headFoot.text("Hover shows sources • Blackouts blind international datasets");
         }
     }

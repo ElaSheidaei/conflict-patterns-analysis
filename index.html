@@ -123,13 +123,14 @@
           </div>
           <div class="viz">
             <div class="viz-head">
-              <div class="viz-title">Stacked area: conflict types over time since 2000</div>
-              <!-- <div class="viz-meta">Units: deaths (where available)</div> -->
+              <div class="viz-title">Conflict Types Over Time (2000–2024)</div>
+              <div class="viz-meta">Stacked area chart — UCDP/OWID recorded deaths</div>
             </div>
+
             <div id="viz-streamgraph" class="viz-box" aria-label="Streamgraph placeholder" style="width: 100%"></div>
+
             <div class="viz-foot">Hover for details</div>
           </div>
-        </div>
       </section>
 
       <!-- 2) Choropleth -->
@@ -171,9 +172,9 @@
             </div>
           </div>
           <div class="viz">
-            <div class="viz-head">
-              <div class="viz-title">Choropleth</div>
-              <div class="viz-meta">Metric: Recorded deaths (2012-2023)</div>
+            <div class="viz-head viz-head-column">
+              <div class="viz-title">Geographic Distribution of Violence Against Civilians (2012–2023)</div>
+              <div class="viz-meta">Choropleth map — UCDP one-sided violence (absolute & per-capita)</div>
             </div>
 
             <div class="controls">
@@ -223,10 +224,11 @@
           </div>
           <div class="viz">
             <div class="viz-head">
-              <div class="viz-title">Lollipop Ranking (Top 10)</div>
-              <!-- <div class="viz-meta">Metric: events targeting civilians (2017-2025)</div> -->
+              <div class="viz-title">Top Countries by Civilian-Targeting Events (2017–2025)</div>
+              <div class="viz-meta">Lollipop ranking chart — UCDP recorded civilian-targeting events</div>
             </div>
-            <div id="viz-lollipop" class="viz-box" aria-label="Lollipop placeholder"></div>
+
+            <div id="viz-lollipop" class="viz-box"></div>
             <div class="viz-foot">Hover over a line for exact values</div>
           </div>
         </div>
@@ -270,23 +272,23 @@
             </div>
 
           </div>
-          <div class="viz">
-            <div class="viz-head">
-              <div class="viz-title">Scrollytelling Dot Map (Middle East)</div>
-              <div class="viz-meta">Size: fatalities • Color: event type</div>
-            </div>
+         <div class="viz">
+          <div class="viz-head">
+            <div class="viz-title">Violence & Protest Events in the Middle East (2012–2023)</div>
+            <div class="viz-meta">Scrollytelling dot map — dot size: fatalities • color: event type</div>
+          </div>
 
-            <div class="controls">
-              <label class="select">
-                Layer:
-                <select id="dotmap-layer">
-                  <option value="Protests">Protests</option>
-                  <option value="Violence against civilians">Violence against civilians</option>
-                  <option value="Battles">Battles</option>
-                  <option value="All" selected>All</option>
-                </select>
-              </label>
-            </div>
+          <div class="controls">
+            <label class="select">
+              Layer:
+              <select id="dotmap-layer">
+                <option value="Protests">Protests</option>
+                <option value="Violence against civilians">Violence against civilians</option>
+                <option value="Battles">Battles</option>
+                <option value="All" selected>All</option>
+              </select>
+            </label>
+          </div>
 
             <div id="viz-dotmap" class="viz-box" aria-label="Dot map placeholder"></div>
             <!-- Legend starts here -->
@@ -363,13 +365,13 @@
           </div>
           <div class="viz">
             <div class="viz-head">
-              <div class="viz-title">Slope Chart</div>
-              <div class="viz-meta">Metric: Fatalities (2017 vs 2025)</div>
+              <div class="viz-title">Conflict Fatalities: Structural Shifts (2017 → 2025)</div>
+              <div class="viz-meta">Slope chart — comparison of recorded fatalities across selected MENA states</div>
             </div>
+
             <div id="viz-slope" class="viz-box" aria-label="Slope chart placeholder"></div>
             <div class="viz-foot">Hover highlights a country • Click to focus</div>
           </div>
-        </div>
       </section>
 
       <!-- 6) 100% stacked -->
@@ -403,12 +405,8 @@
           </div>
           <div class="viz">
             <div class="viz-head">
-              <div class="viz-title">100% Stacked Bar</div>
-              <!-- <div class="viz-meta">Mode: events or fatalities</div> -->
-            </div>
-
-            <div class="controls">
-              <button class="btn" id="btn-stacked-events" aria-pressed="true">Events</button>
+              <div class="viz-title">Event Composition Across Countries</div>
+              <div class="viz-meta">100% stacked bar — share of event types</div>
             </div>
 
             <div id="viz-stacked100" class="viz-box" aria-label="Stacked bar placeholder"></div>
@@ -437,7 +435,6 @@
 
             <div class="viz-foot">Hover to see percentage share within each country</div>
           </div>
-
         </div>
       </section>
     </section>
@@ -488,11 +485,12 @@
           </div>
           <div class="viz">
             <div class="viz-head">
-              <div class="viz-title">Dual-Axis Line Chart</div>
-              <div class="viz-meta">Monthly aggregation (2017-2025)</div>
+              <div class="viz-title">Protest vs Fatalities Over Time — Iran (2017–2025)</div>
+              <div class="viz-meta">Dual-axis line chart — monthly protest events & civilian fatalities</div>
             </div>
+
             <div id="viz-dualaxis" class="viz-box" aria-label="Dual axis placeholder"></div>
-            <!-- <div class="viz-foot">Hover values • Optional brush zoom later</div> -->
+
             <div class="viz-foot">Hover over the timeline to view exact monthly figures</div>
           </div>
         </div>
@@ -530,10 +528,12 @@
           </div>
           <div class="viz">
             <div class="viz-head">
-              <div class="viz-title">Ridgeline Plot</div>
-              <div class="viz-meta">Distribution by week</div>
+              <div class="viz-title">Waves of Civilian Fatalities in Iran (2017–2025)</div>
+              <div class="viz-meta">Ridgeline plot — weekly fatality distribution across years</div>
             </div>
+
             <div id="viz-ridgeline" class="viz-box" aria-label="Ridgeline placeholder"></div>
+
             <div class="viz-foot">Hover ridge peaks • Explicit axis units</div>
           </div>
         </div>
@@ -578,13 +578,14 @@
           </div>
           <div class="viz">
             <div class="viz-head">
-              <div class="viz-title">Sankey Diagram</div>
-              <div class="viz-meta">Documented outcomes, Feb 21 2023</div>
+              <div class="viz-title">Documented Protest Outcomes in Iran (Up to Feb 21, 2023)</div>
+              <div class="viz-meta">Sankey diagram — HRANA cumulative protest outcomes</div>
             </div>
+
             <div id="viz-sankey" class="viz-box" aria-label="Sankey placeholder"></div>
+
             <div class="viz-foot">Hover highlights a path</div>
           </div>
-        </div>
       </section>
 
       <!-- 10) Heatmap -->
@@ -643,12 +644,11 @@
           </div>
           <div class="viz">
             <div class="viz-head">
-              <div class="viz-title">Heatmap: State Repression</div>
-              <div class="viz-meta">ACLED recorded fatalities (monthly)</div>
-            </div>
-            <div id="viz-heatmap" class="viz-box" aria-label="Heatmap placeholder"></div>
-            <div class="viz-foot">Hover for explanation • “No data” is a first-class value</div>
-          </div>
+                <div class="viz-title">Monthly Fatalities in Iran (2017–2025)</div>
+                <div class="viz-meta">Calendar heatmap — ACLED recorded fatalities (monthly)</div>
+              </div>
+              <div id="viz-heatmap" class="viz-box" aria-label="Heatmap placeholder"></div>
+              <div class="viz-foot">Hover for explanation • “No data” is a first-class value</div>          </div>
         </div>
       </section>
 
