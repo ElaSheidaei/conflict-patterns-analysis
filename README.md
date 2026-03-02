@@ -44,7 +44,7 @@ Each chapter relies on independently processed datasets documented below.
 
 ### 3.1 UCDP Conflict Data (via Our World in Data)
 
-- Armed conflict deaths by type (1946–2022):  
+- Armed conflict deaths by type (1946–2024):  
   https://ourworldindata.org/grapher/deaths-in-armed-conflicts-by-type.csv
 
 - One-sided violence deaths:  
