@@ -99,7 +99,7 @@ function drawDualAxisChart() {
             .attr("text-anchor", "end")
             .style("font-size", "12px")
             .style("font-weight", "600")
-            .text("Protest Events");
+            .text("Monthly Protest Events");
 
         // Y Axis Right (Fatalities)
         const yAxisRight = svg.append("g")
@@ -118,8 +118,7 @@ function drawDualAxisChart() {
             .attr("text-anchor", "end")
             .style("font-size", "12px")
             .style("font-weight", "600")
-            .text("Civilian Fatalities");
-
+            .text("Recorded Civilian Fatalities");
         // --- DRAW LINES ---
 
         // 1. Protests Line (Thicker, more stable)

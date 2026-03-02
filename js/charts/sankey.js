@@ -196,8 +196,7 @@ function drawSankeyChart() {
             .style("font-style", "normal")
             .style("font-size", "11px");
 
-
-    });
+        });
 }
 
 document.addEventListener("DOMContentLoaded", drawSankeyChart);

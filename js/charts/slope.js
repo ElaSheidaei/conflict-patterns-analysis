@@ -58,11 +58,32 @@ async function drawSlopeChart() {
     .range([height, 0])
     .nice();
 
-  const yAxis = d3.axisLeft(y)
-    .ticks(5, "~s");
+
+  // const yAxis = d3.axisLeft(y)
+  //   .ticks(5, "~s");
+  // tick formatting: 100, 1k, 10k, 100k (no weird precision)
+const fmtSI = d3.format("~s");
+const yAxis = d3.axisLeft(y)
+  .tickValues([100, 1e3, 1e4, 1e5])   // choose values that match your data range
+  .tickFormat(d => fmtSI(d).replace("G", "B"))
+  .tickSizeOuter(0);
+
+svg.append("text")
+  .attr("class", "axis-label")
+  .attr("transform", "rotate(-90)")
+  .attr("x", -height / 2)
+  .attr("y", -75)
+  .attr("text-anchor", "middle")
+  .style("fill", "var(--muted)")
+  .style("font-size", "11px")
+  .style("font-family", "var(--font-mono)")
+  .text("Recorded fatalities (log scale)");
+
+  const yAxisOffset = -35;
 
   svg.append("g")
     .attr("class", "y-axis")
+    .attr("transform", `translate(${yAxisOffset},0)`)
     .call(yAxis)
     .selectAll("text")
     .style("fill", "var(--muted)")
@@ -73,7 +94,13 @@ async function drawSlopeChart() {
   svg.selectAll(".y-axis .tick line")
     .attr("stroke", "rgba(255,255,255,0.08)");
 
-  // vertical helper lines (like examples)
+  svg.selectAll(".y-axis .tick text")
+    .style("opacity", 0.85);
+
+  svg.select(".y-axis path.domain")
+    .attr("stroke", "rgba(255,255,255,0.18)");
+
+  // vertical helper lines 
   ["A", "B"].forEach(key => {
     svg.append("line")
       .attr("x1", x(key))
@@ -85,6 +112,10 @@ async function drawSlopeChart() {
   });
 
   // axis titles above
+
+  const xKeys = ["A", "B"];
+  const xLabels = { A: "Year 2017", B: "Year 2025" };
+
   svg.append("text")
     .attr("x", x("A"))
     .attr("y", -10)
@@ -92,7 +123,7 @@ async function drawSlopeChart() {
     .style("fill", "var(--muted)")
     .style("font-size", "11px")
     .style("font-family", "var(--font-mono)")
-    .text(colA);
+    .text(xLabels.A);
 
   svg.append("text")
     .attr("x", x("B"))
@@ -101,7 +132,7 @@ async function drawSlopeChart() {
     .style("fill", "var(--muted)")
     .style("font-size", "11px")
     .style("font-family", "var(--font-mono)")
-    .text(colB);
+    .text(xLabels.B);
 
   // -----------------------------
   // 3. Lines + endpoints + labels
